@@ -28,8 +28,8 @@ select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b122
   <p class="sub">Enter License Key</p>
   <input id="key" placeholder="CREW-1234"/>
   <label for="wa">WhatsApp # for Reports [CREW only]</label>
-  <input id="wa" placeholder="2348012345678"/>
-  <p class="muted" style="text-align:left">Format: 234 + number. No + or 0.</p>
+  <input id="wa" placeholder="+1 555 123 4567" type="tel"/>
+  <p class="muted" style="text-align:left">US Format: +1 10 digits. Ex: +1 5551234567</p>
   <button onclick="unlock()">Unlock</button>
   <p class="muted">SOLO = View. CREW = Copy + Rebuttal</p>
 </div>
@@ -62,12 +62,20 @@ let codes=[],WA=localStorage.getItem("rexWA")||"",TIER=localStorage.getItem("rex
 
 if(TIER){lockScreen.classList.add("hidden");appScreen.classList.remove("hidden")}
 
+function formatUS(num){
+  const d=num.replace(/\D/g,"");
+  if(d.length===11 && d.startsWith("1")) return d;
+  if(d.length===10) return "1"+d;
+  return d;
+}
+
 function unlock(){
   const k=document.getElementById("key").value.trim().toUpperCase();
-  const w=document.getElementById("wa").value.replace(/\D/g,"");
+  const w=document.getElementById("wa").value;
   if(k==="CREW-1234"){
-    if(w.length<10){alert("CREW needs WhatsApp # first. Ex: 2348012345678");return}
-    localStorage.setItem("rexWA",w);WA=w;TIER="CREW";
+    const wfmt=formatUS(w);
+    if(wfmt.length!==11){alert("CREW needs US WhatsApp # first. Ex: +1 5551234567");return}
+    localStorage.setItem("rexWA",wfmt);WA=wfmt;TIER="CREW";
   }
   else if(k==="SOLO-1234"){TIER="SOLO"}
   else{alert("Invalid key");return}
@@ -76,8 +84,8 @@ function unlock(){
 }
 
 function changeWA(){
-  const n=prompt("New WhatsApp # Format: 2348012345678");
-  if(n){localStorage.setItem("rexWA",n.replace(/\D/g,""));WA=n.replace(/\D/g,"");alert("Saved")}
+  const n=prompt("New US WhatsApp # Ex: +1 5551234567");
+  if(n){const wfmt=formatUS(n);if(wfmt.length===11){localStorage.setItem("rexWA",wfmt);WA=wfmt;alert("Saved")}else{alert("Enter 10 digits")}}
 }
 function logout(){localStorage.removeItem("rexTier");localStorage.removeItem("rexWA");location.reload()}
 
@@ -85,7 +93,7 @@ async function load(){
   meta.textContent="Searching...";
   try{const r=await fetch("codes.json?v="+Date.now());codes=await r.json();render(filter())}
   catch(e){meta.textContent="Error: "+e.message}
-} // <- FIXED: This brace was missing
+}
 
 function filter(){const term=q.value.toLowerCase().trim(),st=s.value;return codes.filter(c=>(!st||c.s===st)&&(!term||c.t.toLowerCase().includes(term)||c.c.toLowerCase().includes(term)||c.why.toLowerCase().includes(term)))}
 function render(list){
