@@ -50,7 +50,7 @@ button{background:#ff4d00;border:0;font-weight:700;cursor:pointer}
 let CODES=[],tier=null;
 const $=id=>document.getElementById(id);
 
-fetch('codes.json')
+fetch('rex-code-ai/codes.json')
 .then(r=>r.json())
 .then(d=>{CODES=d;$('list').innerHTML='Type and hit Search...'})
 .catch(e=>{$('list').innerHTML='Error: codes.json not found'});
