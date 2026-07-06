@@ -50,10 +50,10 @@ button{background:#ff4d00;border:0;font-weight:700;cursor:pointer}
 let CODES=[],tier=null;
 const $=id=>document.getElementById(id);
 
-fetch('rex-code-ai/codes.json')
-.then(r=>r.json())
-.then(d=>{CODES=d;$('list').innerHTML='Type and hit Search...'})
-.catch(e=>{$('list').innerHTML='Error: codes.json not found'});
+fetch('codes.json')
+.then(r=>{if(!r.ok) throw new Error('HTTP '+r.status); return r.json()})
+.then(d=>{CODES=d;$('list').innerHTML='Loaded '+CODES.length+' codes'})
+.catch(e=>{$('list').innerHTML='Error: '+e.message});
 
 $('unlock').addEventListener('click',()=>{
   const k=$('key').value.replace(/\s/g,'').toUpperCase();
