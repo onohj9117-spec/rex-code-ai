@@ -77,6 +77,8 @@ async function load(){
   meta.textContent="Loading...";
   try{const r=await fetch("codes.json?v="+Date.now());codes=await r.json();render(filter())}
   catch(e){meta.textContent="Error: "+e.message}
+} // <- THIS WAS MISSING
+
 function filter(){const term=q.value.toLowerCase().trim(),st=s.value;return codes.filter(c=>(!st||c.s===st)&&(!term||c.t.toLowerCase().includes(term)||c.c.toLowerCase().includes(term)||c.why.toLowerCase().includes(term)))}
 function render(list){
   meta.textContent=`Loaded ${codes.length} codes. Showing ${list.length}.`;
