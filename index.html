@@ -1,30 +1,40 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Rex Code AI V1</title><style>
-:root{--bg:#0b1220;--card:#0f172a;--muted:#94a3b8;--txt:#e5e7eb;--ok:#22c55e;--warn:#f59e0b;--bad:#ef4444;--accent:#3b82f6}
+:root{--bg:#0b1220;--card:#0f172a;--muted:#94a3b8;--txt:#e5e7eb;--ok:#22c55e;--warn:#f59e0b;--bad:#ef4444;--accent:#f97316}
 *{box-sizing:border-box}body{margin:0;font:14px/1.5 system-ui,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--txt)}
-.wrap{max-width:900px;margin:0 auto;padding:16px}.hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.hdr h1{font-size:18px;margin:0}.sub{color:var(--muted);font-size:12px;margin:0 0 12px}
+.wrap{max-width:420px;margin:0 auto;padding:24px}
+h1{font-size:28px;margin:0 0 8px}
+.sub{color:var(--muted);font-size:14px;margin:0 0 20px}
+input,button{width:100%;height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b1220;color:var(--txt);padding:0 12px;font-size:16px}
+button{cursor:pointer;background:var(--accent);border:0;font-weight:700;margin-top:12px}
+.muted{color:var(--muted);font-size:12px;margin-top:8px;text-align:center}
+.hidden{display:none}
+.hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-input,select,button{height:40px;border-radius:10px;border:1px solid #1f2937;background:#0b1220;color:var(--txt);padding:0 12px}
-button{cursor:pointer;background:var(--accent);border:0;font-weight:600}
-button.ghost{background:#111827;border:1px solid #374151}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:12px}
 .card{background:var(--card);border:1px solid #1f2937;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
 .tag{font-size:11px;border-radius:999px;padding:2px 8px;border:1px solid #374151;display:inline-block;width:fit-content}
 .fail{border-color:#7f1d1d;color:#fecaca}.check{border-color:#92400e;color:#fde68a}.pass{border-color:#14532d;color:#bbf7d0}
-.muted{color:var(--muted);font-size:12px}h3{margin:0;font-size:15px}
 dialog{border:1px solid #334155;background:#0f172a;color:var(--txt);border-radius:12px;padding:16px;max-width:420px}
-dialog input{width:100%}
-</style></head><body><div class="wrap">
+</style></head><body>
+<div class="wrap" id="lockScreen">
+  <h1>Rex Code AI V1</h1>
+  <p class="sub">Enter License Key</p>
+  <input id="key" placeholder="CREW-1234"/>
+  <button onclick="unlock()">Unlock</button>
+  <p class="muted">SOLO = View. CREW = Copy + Rebuttal</p>
+</div>
+
+<div class="wrap hidden" id="appScreen">
   <div class="hdr">
-    <h1>Rex Code AI V1</h1>
-    <button class="ghost" onclick="settings.showModal()">⚙️ Settings</button>
+    <h1 style="font-size:18px;margin:0">Rex Code AI V1</h1>
+    <button class="ghost" style="height:36px;padding:0 10px" onclick="settings.showModal()">⚙️ Settings</button>
   </div>
   <p class="sub">Base: 2021 IMC / 2024 IECC. 100 codes.</p>
   <div class="row">
     <input id="q" placeholder="Search: dryer, bath, hood, vent..."/>
-    <select id="s"><option value="">All</option><option>FAIL</option><option>CHECK</option><option>PASS</option></select>
-    <button onclick="load()">Load</button>
+    <select id="s" style="height:40px"><option value="">All</option><option>FAIL</option><option>CHECK</option><option>PASS</option></select>
+    <button style="width:auto;height:40px" onclick="load()">Load</button>
   </div>
   <div id="meta" class="muted"></div>
   <div id="res" class="grid"></div>
@@ -41,10 +51,21 @@ dialog input{width:100%}
 </dialog>
 
 <script>
+const lockScreen=document.getElementById("lockScreen"),appScreen=document.getElementById("appScreen");
 const q=document.getElementById("q"),s=document.getElementById("s"),res=document.getElementById("res"),meta=document.getElementById("meta"),settings=document.getElementById("settings"),waInput=document.getElementById("waInput");
-let codes=[],WA=localStorage.getItem("rexWA")||"";
+let codes=[],WA=localStorage.getItem("rexWA")||"",TIER=localStorage.getItem("rexTier")||"";
 
-if(!WA){settings.showModal()}else{waInput.value=WA}
+if(TIER){lockScreen.classList.add("hidden");appScreen.classList.remove("hidden");if(!WA){settings.showModal()}else{waInput.value=WA}}
+
+function unlock(){
+  const k=document.getElementById("key").value.trim().toUpperCase();
+  if(k==="CREW-1234"){TIER="CREW"}
+  else if(k==="SOLO-1234"){TIER="SOLO"}
+  else{alert("Invalid key");return}
+  localStorage.setItem("rexTier",TIER);
+  lockScreen.classList.add("hidden");appScreen.classList.remove("hidden");
+  if(!WA){settings.showModal()}
+}
 
 function saveWA(){
   const v=waInput.value.replace(/\D/g,"");
@@ -56,15 +77,25 @@ async function load(){
   meta.textContent="Loading...";
   try{const r=await fetch("codes.json?v="+Date.now());codes=await r.json();render(filter())}
   catch(e){meta.textContent="Error: "+e.message}
-}
 function filter(){const term=q.value.toLowerCase().trim(),st=s.value;return codes.filter(c=>(!st||c.s===st)&&(!term||c.t.toLowerCase().includes(term)||c.c.toLowerCase().includes(term)||c.why.toLowerCase().includes(term)))}
 function render(list){
   meta.textContent=`Loaded ${codes.length} codes. Showing ${list.length}.`;
   res.innerHTML="";
   list.forEach(code=>{
     const d=document.createElement("div");d.className="card";
+    let btns=`<button class="ghost" style="height:36px" onclick="copyRep('${code.rep.replace(/'/g,"\\'")}')">📋 Copy Report</button>`;
+    if(TIER==="CREW"){btns+=`<button class="ghost" style="height:36px" onclick="waRebuttal('${code.c}','${code.why.replace(/'/g,"\\'")}','${code.rep.replace(/'/g,"\\'")}')">Inspector Rebuttal</button>`}
     d.innerHTML=`<div class="tag ${code.s.toLowerCase()}">${code.s}</div>
       <h3>${code.t}</h3><div class="muted">${code.c}</div>
       <div>${code.why}</div><div><b>Fix:</b> ${code.fix}</div>
-      <div class="row">
-        <button class="btn
+      <div class="row">${btns}</div>`;
+    res.appendChild(d);
+  })
+}
+function copyRep(t){navigator.clipboard.writeText(t);alert("Copied!")}
+function waRebuttal(c,why,rep){
+  if(!WA){settings.showModal();alert("Set your WhatsApp number first");return}
+  const txt=`*Rex Code AI Rebuttal*%0A%0A*Code:* ${c}%0A*Finding:* ${why}%0A*Rebuttal:* ${rep}%0A%0AJob: CREW-1234`;
+  window.open(`https://wa.me/${WA}?text=${txt}`,'_blank');
+}
+</script></body></html>
