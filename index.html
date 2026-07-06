@@ -27,9 +27,11 @@ select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b122
   <h1>Rex Code AI V1</h1>
   <p class="sub">Enter License Key</p>
   <input id="key" placeholder="CREW-1234"/>
-  <label for="wa">WhatsApp # for Reports [CREW only]</label>
-  <input id="wa" placeholder="+1 555 123 4567" type="tel"/>
-  <p class="muted" style="text-align:left">US Format: +1 10 digits. Ex: +1 5551234567</p>
+  <div id="waField" class="hidden">
+    <label for="wa">WhatsApp # for Reports</label>
+    <input id="wa" placeholder="+1 555 123 4567" type="tel"/>
+    <p class="muted" style="text-align:left">US Format: +1 10 digits. Ex: +1 5551234567</p>
+  </div>
   <button onclick="unlock()">Unlock</button>
   <p class="muted">SOLO = View. CREW = Copy + Rebuttal</p>
 </div>
@@ -38,12 +40,11 @@ select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b122
   <div class="hdr">
     <div class="topbar">
       <h1>Rex Code AI V1</h1>
-      <div class="row">
-        <button class="iconbtn ghost" onclick="changeWA()" title="Change WhatsApp">📱</button>
+      <div class="row" id="topBtns">
         <button class="ghost" style="height:44px;padding:0 12px" onclick="logout()">Logout</button>
       </div>
     </div>
-    <p class="sub">Base: 2021 IMC / 2021 IECC. 100 codes.</p>
+    <p class="sub">Base: 2021 IMC / 2024 IECC. 100 codes.</p>
   </div>
   
   <div class="row searchrow">
@@ -57,10 +58,18 @@ select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b122
 
 <script>
 const lockScreen=document.getElementById("lockScreen"),appScreen=document.getElementById("appScreen");
-const q=document.getElementById("q"),s=document.getElementById("s"),res=document.getElementById("res"),meta=document.getElementById("meta");
+const q=document.getElementById("q"),s=document.getElementById("s"),res=document.getElementById("res"),meta=document.getElementById("meta"),waField=document.getElementById("waField"),topBtns=document.getElementById("topBtns");
 let codes=[],WA=localStorage.getItem("rexWA")||"",TIER=localStorage.getItem("rexTier")||"";
 
-if(TIER){lockScreen.classList.add("hidden");appScreen.classList.remove("hidden")}
+if(TIER){
+  lockScreen.classList.add("hidden");appScreen.classList.remove("hidden");
+  if(TIER==="CREW"){topBtns.insertAdjacentHTML('afterbegin','<button class="iconbtn ghost" onclick="changeWA()" title="Change WhatsApp">📱</button>')}
+}
+
+document.getElementById("key").addEventListener("input",e=>{
+  if(e.target.value.trim().toUpperCase().startsWith("CREW")){waField.classList.remove("hidden")}
+  else{waField.classList.add("hidden")}
+});
 
 function formatUS(num){
   const d=num.replace(/\D/g,"");
@@ -81,6 +90,7 @@ function unlock(){
   else{alert("Invalid key");return}
   localStorage.setItem("rexTier",TIER);
   lockScreen.classList.add("hidden");appScreen.classList.remove("hidden");
+  if(TIER==="CREW"){topBtns.insertAdjacentHTML('afterbegin','<button class="iconbtn ghost" onclick="changeWA()" title="Change WhatsApp">📱</button>')}
 }
 
 function changeWA(){
