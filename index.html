@@ -33,13 +33,15 @@ button{background:#ff4d00;border:0;font-weight:700;cursor:pointer}
     <button id="unlock">Unlock</button>
     <div class="sub" style="margin-top:8px">SOLO = View. CREW = Copy + Rebuttal</div>
   </div>
-  <div id="app" class="hide">
+<div id="app" class="hide">
     <h1>Rex Code AI V1</h1>
     <div class="sub">Base: 2024 IMC / 2024 IECC. 100 codes.</div>
-    <input id="q" placeholder="Search: dryer vent, tape, clearance, MUA">
-    <div id="list">Loading codes...</div>
+    <div style="display:flex;gap:8px">
+      <input id="q" placeholder="Search: dryer vent, tape, clearance, MUA" style="flex:1">
+      <button id="searchBtn" style="width:auto;padding:14px 18px">Search</button>
+    </div>
+    <div id="list">Type to search...</div>
   </div>
-</div>
 <script>
 let CODES=[],tier=null;
 const $=id=>document.getElementById(id);
