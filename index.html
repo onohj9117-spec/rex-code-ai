@@ -97,7 +97,8 @@ function render(list){
 function copyRep(t){navigator.clipboard.writeText(t);alert("Copied!")}
 function waRebuttal(c,why,rep){
   if(!WA){alert("Set WhatsApp # first");return}
-  const txt=`*Rex Code AI Rebuttal*%0A%0A*Code:* ${c}%0A*Finding:* ${why}%0A*Rebuttal:* ${rep}%0A%0AJob: CREW-1234`;
+  const jobRef = TIER==="CREW" ? "CREW-1234" : "SOLO";
+  const txt=`*Rex Code AI Rebuttal*%0A%0A*Code Section:* ${c}%0A*Finding:* ${why}%0A*Required Fix:* ${rep}%0A%0A*Job Reference:* ${jobRef}`;
   window.open(`https://wa.me/${WA}?text=${txt}`,'_blank');
 }
 </script></body></html>
