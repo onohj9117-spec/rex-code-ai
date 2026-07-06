@@ -1,4 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f97316">
 <title>Rex Code AI V1</title><style>
 :root{--bg:#0b1220;--card:#0f172a;--muted:#94a3b8;--txt:#e5e7eb;--accent:#f97316}
 *{box-sizing:border-box}body{margin:0;font:14px/1.5 system-ui,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--txt)}
@@ -60,6 +62,8 @@ select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b122
 </div>
 
 <script>
+if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js");}
+
 const lockScreen=document.getElementById("lockScreen"),appScreen=document.getElementById("appScreen");
 const q=document.getElementById("q"),s=document.getElementById("s"),res=document.getElementById("res"),meta=document.getElementById("meta"),waField=document.getElementById("waField"),topBtns=document.getElementById("topBtns");
 let codes=[],WA=localStorage.getItem("rexWA")||"",TIER=localStorage.getItem("rexTier")||"";
