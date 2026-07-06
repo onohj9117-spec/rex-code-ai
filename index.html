@@ -22,6 +22,9 @@ button{background:#ff4d00;border:0;font-weight:700;cursor:pointer}
 .ghost{background:#1a1a1a;border:1px solid #333}
 .hide{display:none}
 .code{font-size:12px;color:#999}
+.searchRow{display:flex;gap:8px;margin-bottom:12px}
+.searchRow input{margin-bottom:0;flex:1}
+.searchRow button{width:auto;padding:14px 18px}
 </style>
 </head>
 <body>
@@ -33,22 +36,23 @@ button{background:#ff4d00;border:0;font-weight:700;cursor:pointer}
     <button id="unlock">Unlock</button>
     <div class="sub" style="margin-top:8px">SOLO = View. CREW = Copy + Rebuttal</div>
   </div>
-<div id="app" class="hide">
+  <div id="app" class="hide">
     <h1>Rex Code AI V1</h1>
     <div class="sub">Base: 2024 IMC / 2024 IECC. 100 codes.</div>
-    <div style="display:flex;gap:8px">
-      <input id="q" placeholder="Search: dryer vent, tape, clearance, MUA" style="flex:1">
-      <button id="searchBtn" style="width:auto;padding:14px 18px">Search</button>
+    <div class="searchRow">
+      <input id="q" placeholder="Search: dryer vent, tape, clearance, MUA">
+      <button id="searchBtn">Search</button>
     </div>
-    <div id="list">Type to search...</div>
+    <div id="list">Type and hit Search...</div>
   </div>
+</div>
 <script>
 let CODES=[],tier=null;
 const $=id=>document.getElementById(id);
 
 fetch('codes.json')
 .then(r=>r.json())
-.then(d=>{CODES=d;$('list').innerHTML='Type to search...'})
+.then(d=>{CODES=d;$('list').innerHTML='Type and hit Search...'})
 .catch(e=>{$('list').innerHTML='Error: codes.json not found'});
 
 $('unlock').addEventListener('click',()=>{
@@ -57,13 +61,13 @@ $('unlock').addEventListener('click',()=>{
     tier=k.startsWith('CREW')?'CREW':'SOLO';
     $('gate').classList.add('hide');
     $('app').classList.remove('hide');
-    render();
   }else{
     alert('Invalid key. Use SOLO-XXXX or CREW-XXXX');
   }
 });
 
-$('q').addEventListener('input',render);
+$('q').addEventListener('input',render); // <-- This is the q listener
+$('searchBtn').addEventListener('click',render); // <-- This is the button
 
 function render(){
   const q=$('q').value.toLowerCase();
