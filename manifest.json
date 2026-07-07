@@ -1,15 +1,9 @@
 {
-  "name": "Rex Code AI V1",
+  "name": "Rex Code AI",
   "short_name": "Rex AI",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#0b1220",
   "theme_color": "#f97316",
-  "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ]
+  "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }]
 }
