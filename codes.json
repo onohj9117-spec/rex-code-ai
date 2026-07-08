@@ -98,5 +98,725 @@
 {"id":97,"t":"Refrigerant Charge","c":"MFG","s":"CHECK","why":"System charged by pressure alone without subcooling or superheat verification.","fix":"After pressure charge, measure subcooling at liquid line (TXV: 10 to 15 degrees F) or superheat at suction line (fixed orifice: 10 to 18 degrees F) at design conditions and adjust.","rep":"Manufacturer requirement: Charge must be verified by subcooling or superheat measurement at design operating conditions."},
 {"id":98,"t":"Exhaust Fan Noise","c":"IMC 2021 403","s":"CHECK","why":"Bath exhaust fan exceeds 1.0 sone noise rating.","fix":"Replace with fan rated 1.0 sone or less. Sone rating is on the fan packaging. Quieter fans ensure occupants leave fans running longer, improving actual ventilation.","rep":"IMC 2021 403 and Energy Star: Bath fans in sleeping areas should be rated 1.0 sone or less."},
 {"id":99,"t":"Heat Pump Defrost","c":"MFG","s":"CHECK","why":"Ice accumulating on outdoor coil without defrost cycle activating.","fix":"Check defrost thermostat or sensor at outdoor coil. Check defrost control board timing and temperature setpoints. Verify reversing valve operation. Ice buildup causes compressor damage.","rep":"Manufacturer requirement: Defrost system must activate to clear ice from outdoor coil. Failure causes compressor damage and efficiency loss."},
-{"id":100,"t":"Mini Split Drain Line","c":"MFG","s":"FAIL","why":"Mini split indoor head has no condensate drain line installed.","fix":"Install drain line with minimum 1/4in per foot slope to approved discharge location. Install P-trap if drain connects to sanitary system. Do not cap drain port.","rep":"Manufacturer requirement and IMC 2021 307.2: All cooling equipment must have a properly sloped condensate drain to approved disposal location."}
+{"id":100,"t":"Mini Split Drain Line","c":"MFG","s":"FAIL","why":"Mini split indoor head has no condensate drain line installed.","fix":"Install drain line with minimum 1/4in per foot slope to approved discharge location. Install P-trap if drain connects to sanitary system. Do not cap drain port.","rep":"Manufacturer requirement and IMC 2021 307.2: All cooling equipment must have a properly sloped condensate drain to approved disposal location."},
+  {
+    "id": 101,
+    "t": "Heat Pump Refrigerant Charge",
+    "c": "IMC 2021 1106 / MFG",
+    "s": "CHECK",
+    "why": "Charge not verified by measurement — pressures only used.",
+    "fix": "TXV systems: measure subcooling 10-15°F at liquid line. Fixed orifice: measure superheat 10-18°F at suction. Outdoor temp must be above 55°F for accurate charge verification.",
+    "rep": "IMC 2021 1106 / MFG: Refrigerant charge must be verified by subcooling or superheat measurement at operating conditions. Pressure-only charging is inaccurate."
+  },
+  {
+    "id": 102,
+    "t": "Heat Pump Reversing Valve",
+    "c": "MFG",
+    "s": "CHECK",
+    "why": "Unit not switching between heating and cooling modes.",
+    "fix": "Check reversing valve solenoid for 24V at terminals in heating mode. Verify valve is not stuck — tap lightly with rubber mallet while energized. Check for refrigerant bypass across valve seats.",
+    "rep": "MFG requirement: Reversing valve must shift cleanly between modes. Stuck valve causes unit to run in wrong mode year-round."
+  },
+  {
+    "id": 103,
+    "t": "Heat Pump Auxiliary Heat Lockout",
+    "c": "IECC 2021 R403.1 / MFG",
+    "s": "CHECK",
+    "why": "Auxiliary electric heat not locked out above outdoor design temperature.",
+    "fix": "Set aux heat lockout thermostat at 35-40°F outdoor temperature. Aux heat must not operate simultaneously with compressor above lockout setpoint — wastes energy and violates IECC.",
+    "rep": "IECC 2021 R403.1 / MFG: Auxiliary heat lockout required. Aux heat running above 40°F outdoor with compressor operating is an energy code violation."
+  },
+  {
+    "id": 104,
+    "t": "Heat Pump Defrost Board",
+    "c": "MFG",
+    "s": "CHECK",
+    "why": "Outdoor coil icing up without defrost cycle initiating.",
+    "fix": "Check defrost thermostat clip on outdoor coil — must make contact with coil surface. Verify defrost board timing (typically 30-90 minute intervals). Check that defrost terminates at 57-65°F coil temp.",
+    "rep": "MFG requirement: Defrost system must prevent ice buildup on outdoor coil. Continuous ice accumulation causes compressor damage and loss of heating capacity."
+  },
+  {
+    "id": 105,
+    "t": "Heat Pump Dual Fuel Sequencing",
+    "c": "MFG / IECC 2021 R403.1",
+    "s": "CHECK",
+    "why": "Gas furnace and heat pump operating simultaneously or sequencing incorrectly.",
+    "fix": "Set balance point temperature (typically 25-35°F) where gas furnace takes over from heat pump. Heat pump and gas furnace must not fire simultaneously. Verify control board or thermostat dual-fuel setting.",
+    "rep": "MFG / IECC 2021 R403.1: Dual fuel system balance point must be set correctly. Simultaneous operation wastes energy and can cause equipment damage."
+  },
+  {
+    "id": 106,
+    "t": "Heat Pump Low Ambient Operation",
+    "c": "MFG",
+    "s": "CHECK",
+    "why": "Heat pump operating in cooling mode below minimum outdoor temperature.",
+    "fix": "Verify low ambient kit is installed if cooling is required below 55°F outdoor temperature. Standard heat pumps cannot cool effectively or safely below 55°F without low ambient controls.",
+    "rep": "MFG requirement: Low ambient cooling kit required for operation below 55°F outdoor temperature. Standard units not designed for this operation."
+  },
+  {
+    "id": 107,
+    "t": "Heat Pump Crankcase Heater",
+    "c": "MFG",
+    "s": "CHECK",
+    "why": "Crankcase heater not installed or not energized in cold climate.",
+    "fix": "Verify crankcase heater is installed and wired to energize whenever compressor is off. Required in Climate Zones 5-8. Allow 8 hours of crankcase heater operation before first compressor startup after extended shutdown.",
+    "rep": "MFG requirement: Crankcase heater prevents refrigerant migration into compressor oil in cold climates. Missing heater causes compressor failure on cold startup."
+  },
+  {
+    "id": 108,
+    "t": "Heat Pump Refrigerant Line Length",
+    "c": "MFG / IMC 2021 1106",
+    "s": "CHECK",
+    "why": "Line set exceeds manufacturer maximum length or height differential.",
+    "fix": "Check installation manual for maximum line set length (typically 50-150ft) and maximum vertical rise. Exceeding limits requires refrigerant charge adjustment per manufacturer table.",
+    "rep": "MFG / IMC 2021 1106: Line set length and vertical differential must stay within manufacturer limits. Excess length requires charge adjustment per installation manual."
+  },
+  {
+    "id": 109,
+    "t": "Heat Pump Outdoor Unit Snow Clearance",
+    "c": "MFG / IMC 2021 304.2",
+    "s": "CHECK",
+    "why": "Outdoor unit mounted at grade level in Climate Zones 5-8 without snow riser.",
+    "fix": "Install equipment stand or riser to elevate unit minimum 18in above grade in snow-prone climate zones. Unit buried in snow blocks airflow and prevents defrost drainage.",
+    "rep": "MFG / IMC 2021 304.2: Units in snow-prone zones must be elevated minimum 18in above grade to prevent snow burial and blocked airflow."
+  },
+  {
+    "id": 110,
+    "t": "Heat Pump Thermostat Compatibility",
+    "c": "MFG",
+    "s": "CHECK",
+    "why": "Standard AC thermostat used on heat pump system — O or B wire missing.",
+    "fix": "Heat pump thermostats require O wire (energizes reversing valve in cooling) or B wire (energizes reversing valve in heating) depending on manufacturer. Verify thermostat is heat pump compatible and O/B wire is correctly connected.",
+    "rep": "MFG requirement: Heat pump requires heat pump compatible thermostat with O or B reversing valve wire. Standard AC thermostat will not control heating mode correctly."
+  },
+  {
+    "id": 111,
+    "t": "Mini Split Circuit Isolation",
+    "c": "NEC 440.14",
+    "s": "FAIL",
+    "why": "No disconnect within sight of mini split outdoor unit.",
+    "fix": "Install listed disconnect within sight of outdoor unit and within 50ft. Must be lockable in open position. Cannot be the circuit breaker at the panel if panel is not visible from the unit.",
+    "rep": "NEC 440.14: Disconnecting means required within sight of mini split outdoor unit. Panel breaker alone does not comply if panel is not visible from unit location."
+  },
+  {
+    "id": 112,
+    "t": "Mini Split Lineset Flare Quality",
+    "c": "IMC 2021 1106 / MFG",
+    "s": "CHECK",
+    "why": "Flare connections leak-tested positive or flares visually cracked or off-center.",
+    "fix": "Re-flare using proper flare tool with depth gauge. Deburr tubing before flaring. Apply refrigerant oil to flare face. Torque flare nuts to manufacturer specification — typically 18-42 ft-lbs depending on tube size.",
+    "rep": "IMC 2021 1106 / MFG: Flare connections must be leak-free. Re-flare if any leak detected. Torque to manufacturer specification — overtorquing cracks flares."
+  },
+  {
+    "id": 113,
+    "t": "Mini Split Head Location",
+    "c": "MFG",
+    "s": "CHECK",
+    "why": "Indoor head positioned where airflow is obstructed or recirculates.",
+    "fix": "Minimum 6in clearance above head unit. No obstructions within 3ft of discharge. Do not install directly above a door — cold air falls onto occupants entering. Verify throw distance covers the room.",
+    "rep": "MFG requirement: Indoor head clearances must match installation manual. Poor placement causes short cycling and uneven temperature distribution."
+  },
+  {
+    "id": 114,
+    "t": "Mini Split Condensate Trap",
+    "c": "IMC 2021 307.2 / MFG",
+    "s": "FAIL",
+    "why": "No condensate trap on indoor head drain in negative pressure application.",
+    "fix": "Install P-trap on condensate drain if indoor unit is in a negative pressure space or if drain connects to sanitary system. Trap depth must overcome unit static pressure.",
+    "rep": "IMC 2021 307.2: Condensate trap required where drain connects to sanitary system or where negative pressure could pull sewer gas into unit."
+  },
+  {
+    "id": 115,
+    "t": "Mini Split Refrigerant Line Isolation",
+    "c": "IMC 2021 1106.2",
+    "s": "CHECK",
+    "why": "Lineset passes through wall or floor penetration without protection.",
+    "fix": "Install line set sleeve or grommet at all wall and floor penetrations. Seal around sleeve with fire-rated sealant at any fire-rated assembly penetration.",
+    "rep": "IMC 2021 1106.2: Refrigerant piping at wall and floor penetrations must be protected and sealed."
+  },
+  {
+    "id": 116,
+    "t": "Multi-Zone Mini Split Capacity",
+    "c": "MFG",
+    "s": "CHECK",
+    "why": "Total connected indoor head capacity exceeds outdoor unit rated capacity.",
+    "fix": "Sum BTU capacity of all indoor heads. Must not exceed outdoor unit maximum connected capacity per installation manual. Over-connecting heads causes insufficient capacity and compressor overload.",
+    "rep": "MFG requirement: Total indoor head capacity cannot exceed outdoor unit maximum. Check installation manual for maximum connected capacity and minimum number of zones."
+  },
+  {
+    "id": 117,
+    "t": "Boiler Relief Valve",
+    "c": "IMC 2021 1006.4",
+    "s": "FAIL",
+    "why": "No pressure relief valve or relief valve discharge pipe not correctly installed.",
+    "fix": "Install ASME-rated relief valve sized for boiler BTU output. Discharge pipe must be full size of valve outlet, terminate within 6in of floor or to safe drain, cannot be threaded at end, cannot have valve installed on discharge.",
+    "rep": "IMC 2021 1006.4: Boiler requires ASME pressure relief valve. Discharge must terminate safely — no valve, no threads at end, within 6in of floor."
+  },
+  {
+    "id": 118,
+    "t": "Boiler Low Water Cutoff",
+    "c": "IMC 2021 1006.5",
+    "s": "FAIL",
+    "why": "No low water cutoff device on steam or hot water boiler.",
+    "fix": "Install listed low water cutoff control that shuts off burner before water level drops below minimum safe level. Float-type or probe-type both acceptable. Test annually by blowing down.",
+    "rep": "IMC 2021 1006.5: Low water cutoff required on all steam and hot water boilers. Prevents dry firing and heat exchanger damage."
+  },
+  {
+    "id": 119,
+    "t": "Boiler Expansion Tank",
+    "c": "IMC 2021 1006.3",
+    "s": "FAIL",
+    "why": "No expansion tank on closed hydronic system or tank waterlogged.",
+    "fix": "Install ASME-rated expansion tank sized for system volume and operating temperature. Check pre-charge pressure matches system fill pressure (typically 12-15 PSI). Waterlogged tank — drain, recharge to system static pressure.",
+    "rep": "IMC 2021 1006.3: Expansion tank required on closed hydronic systems to absorb thermal expansion. Waterlogged tank provides no expansion volume."
+  },
+  {
+    "id": 120,
+    "t": "Boiler Backflow Preventer",
+    "c": "IPC 2021 608.16",
+    "s": "FAIL",
+    "why": "No backflow preventer on boiler feed water connection.",
+    "fix": "Install reduced pressure backflow preventer or double check valve on cold water makeup connection to boiler. Hydronic system water is not potable — must not be allowed to backflow into domestic supply.",
+    "rep": "IPC 2021 608.16: Backflow preventer required on all boiler makeup water connections. Boiler water contains additives that cannot enter domestic supply."
+  },
+  {
+    "id": 121,
+    "t": "Boiler Flue Sizing",
+    "c": "IMC 2021 805.1",
+    "s": "CHECK",
+    "why": "Multiple boilers on common vent or boiler flue not sized to Appendix B.",
+    "fix": "Size flue using IMC Appendix B multi-appliance tables if multiple boilers share vent. Single boiler use single-appliance tables. Input BTU, connector length, and total vent height to find minimum diameter.",
+    "rep": "IMC 2021 805.1 / Appendix B: Boiler flue must be sized using IMC Appendix B tables. Both undersized and oversized flues cause problems."
+  },
+  {
+    "id": 122,
+    "t": "Boiler Operating Control",
+    "c": "IMC 2021 1006.1",
+    "s": "FAIL",
+    "why": "No high limit operating control on boiler.",
+    "fix": "Install listed high limit aquastat set at maximum 210°F for hot water boilers. High limit must cut off burner before relief valve opens. Two separate controls required — operating control and high limit.",
+    "rep": "IMC 2021 1006.1: Hot water boilers require high limit control set at maximum 210°F. High limit must shut off burner before relief valve activates."
+  },
+  {
+    "id": 123,
+    "t": "Hydronic Pipe Material",
+    "c": "IMC 2021 1202.1",
+    "s": "CHECK",
+    "why": "Wrong pipe material used for operating temperature or pressure.",
+    "fix": "Verify pipe material is rated for system operating temperature and pressure. CPVC rated to 180°F at 100 PSI. PEX rated to 200°F. Standard PVC not rated for hydronic heating temperatures above 140°F.",
+    "rep": "IMC 2021 1202.1: Hydronic pipe material must be rated for system operating temperature and pressure. Standard PVC not acceptable for heating applications above 140°F."
+  },
+  {
+    "id": 124,
+    "t": "Hydronic Pipe Insulation",
+    "c": "IECC 2021 R403.4",
+    "s": "FAIL",
+    "why": "Hydronic piping in unconditioned space not insulated.",
+    "fix": "R-3 minimum insulation on pipes up to 1.5in diameter in unconditioned spaces. R-5 for pipes larger than 1.5in. Insulation must be continuous — no gaps at fittings or hangers.",
+    "rep": "IECC 2021 R403.4: Hydronic piping in unconditioned spaces requires R-3 (up to 1.5in pipe) or R-5 (larger pipe) insulation."
+  },
+  {
+    "id": 125,
+    "t": "Hydronic Air Separator",
+    "c": "IMC 2021 1202 / MFG",
+    "s": "CHECK",
+    "why": "No air separator or air vent on hydronic system — air in system causes noise and circulation problems.",
+    "fix": "Install automatic air vent at highest point in system and air separator at boiler outlet. Purge all air from system at commissioning. Air in hydronic system causes gurgling, uneven heat, and circulator pump cavitation.",
+    "rep": "IMC 2021 1202 / MFG: Hydronic systems require automatic air vents and air separators. Air in system causes poor circulation and equipment damage."
+  },
+  {
+    "id": 126,
+    "t": "Hydronic Circulator Pump Location",
+    "c": "MFG",
+    "s": "CHECK",
+    "why": "Circulator pump installed on return side pulling away from expansion tank connection.",
+    "fix": "Circulator pump must pump away from the expansion tank connection point. Pumping toward the expansion tank creates negative pressure in the system and causes air entrainment.",
+    "rep": "MFG requirement: Circulator must pump away from expansion tank connection. Pumping toward tank causes system air problems and circulation failure."
+  },
+  {
+    "id": 127,
+    "t": "Hydronic Pressure Test",
+    "c": "IMC 2021 1204.1",
+    "s": "CHECK",
+    "why": "Hydronic system not pressure tested before concealment.",
+    "fix": "Pressure test hydronic system at 1.5 times working pressure minimum before closing walls or ceilings. Hold pressure for minimum 15 minutes with no drop. Document test pressure and result.",
+    "rep": "IMC 2021 1204.1: Hydronic piping must be pressure tested at 1.5x working pressure before concealment. Document test results."
+  },
+  {
+    "id": 128,
+    "t": "Radiant Floor Manifold Balancing",
+    "c": "MFG / IMC 2021 1202",
+    "s": "CHECK",
+    "why": "Radiant floor loops not balanced — some zones over-delivering, others cold.",
+    "fix": "Balance manifold flow meters to equal GPM per loop. Longer loops need more flow than shorter loops — consult design GPM per loop. Check all loops for air before balancing.",
+    "rep": "MFG / IMC 2021 1202: Radiant floor manifold loops must be balanced to design flow. Unbalanced system causes hot and cold spots throughout floor."
+  },
+  {
+    "id": 129,
+    "t": "Boiler Combustion Analysis",
+    "c": "IMC 2021 701 / MFG",
+    "s": "CHECK",
+    "why": "Boiler not commissioned with combustion analyzer — CO levels unknown.",
+    "fix": "Perform combustion analysis at startup. Acceptable: CO under 100 PPM air-free, CO2 8-10 percent for natural gas, flue temp within manufacturer range. Adjust air-fuel ratio if outside range.",
+    "rep": "IMC 2021 701 / MFG: Boiler combustion must be verified at startup. CO above 100 PPM air-free indicates combustion problem requiring correction."
+  },
+  {
+    "id": 130,
+    "t": "Steam Boiler Hartford Loop",
+    "c": "IMC 2021 1006 / MFG",
+    "s": "FAIL",
+    "why": "Steam boiler return piping missing Hartford Loop connection.",
+    "fix": "Install Hartford Loop — wet return must connect to equalizer pipe at boiler waterline level. Prevents water from siphoning out of boiler if return line develops a leak.",
+    "rep": "IMC 2021 1006 / MFG: Steam boilers require Hartford Loop on wet return connection. Missing Hartford Loop allows boiler to run dry if return line leaks."
+  },
+  {
+    "id": 131,
+    "t": "Commercial Refrigeration Machinery Room",
+    "c": "IMC 2021 1108.1",
+    "s": "FAIL",
+    "why": "Refrigerant charge exceeds occupied space limit with no machinery room.",
+    "fix": "Calculate total refrigerant charge against IMC Table 1103.1 threshold for refrigerant safety class. If exceeded, install dedicated machinery room with outward-swinging self-latching door, emergency exhaust, and leak detection.",
+    "rep": "IMC 2021 1108.1: Refrigerant charge exceeding Table 1103.1 limit requires dedicated machinery room. Check charge against threshold for specific refrigerant class."
+  },
+  {
+    "id": 132,
+    "t": "Commercial Refrigeration Leak Detection",
+    "c": "IMC 2021 1105.1",
+    "s": "FAIL",
+    "why": "Machinery room above refrigerant threshold with no continuous leak detection.",
+    "fix": "Install continuous refrigerant leak detection system with low-level alarm activating at 25 percent of IDLH concentration. System must also activate emergency exhaust ventilation automatically on leak detection.",
+    "rep": "IMC 2021 1105.1: Continuous leak detection required in machinery rooms above threshold. Must alarm at 25 percent of IDLH and activate emergency exhaust automatically."
+  },
+  {
+    "id": 133,
+    "t": "Commercial Refrigeration Emergency Exhaust",
+    "c": "IMC 2021 1108.2",
+    "s": "FAIL",
+    "why": "Machinery room has no emergency exhaust ventilation system.",
+    "fix": "Install emergency exhaust fan sized for minimum 0.5 CFM per cubic foot of machinery room volume. Fan must be interlocked with leak detection system and have manual override switch at room entrance.",
+    "rep": "IMC 2021 1108.2: Machinery room requires emergency exhaust at minimum 0.5 CFM per cubic foot. Must interlock with leak detector and have manual override at entry."
+  },
+  {
+    "id": 134,
+    "t": "A2L Refrigerant Installation",
+    "c": "IMC 2024 1103 / ASHRAE 15",
+    "s": "CHECK",
+    "why": "A2L refrigerant (R-32, R-454B, R-466A) installed without reviewing 2024 IMC requirements.",
+    "fix": "A2L refrigerants are mildly flammable. Verify equipment is listed for A2L use. Check quantity limits against 2024 IMC Table 1103.1 for A2L class. No ignition sources within required separation distance of refrigerant components.",
+    "rep": "IMC 2024 1103: A2L refrigerants have additional installation requirements. Equipment must be listed for A2L. Check 2024 IMC for quantity limits and ignition source separation."
+  },
+  {
+    "id": 135,
+    "t": "Commercial Refrigeration Pressure Relief Routing",
+    "c": "IMC 2021 1109.1",
+    "s": "FAIL",
+    "why": "Pressure relief valve discharge routed into equipment room or ceiling cavity.",
+    "fix": "Route relief discharge to outdoors or safe non-occupied area. Discharge pipe must be same diameter as relief valve outlet. Cannot reduce pipe size. Cannot terminate where discharged refrigerant creates a hazard.",
+    "rep": "IMC 2021 1109.1: Refrigeration relief valve discharge must terminate outdoors or in safe non-occupied location. Cannot discharge into equipment room or ceiling."
+  },
+  {
+    "id": 136,
+    "t": "Walk-In Cooler Door Heater",
+    "c": "MFG / IMC 2021",
+    "s": "CHECK",
+    "why": "Walk-in cooler door frame heater not operating — condensation and frost on frame.",
+    "fix": "Verify door frame heater wire is energized. Check heater continuity with ohmmeter. Frost on door frame causes door seal failure and excessive defrost load on refrigeration system.",
+    "rep": "MFG requirement: Walk-in cooler door frame heaters must be operational. Frost buildup indicates heater failure causing door seal problems and energy waste."
+  },
+  {
+    "id": 137,
+    "t": "Refrigeration Condenser Coil Clearance",
+    "c": "IMC 2021 1111.1 / MFG",
+    "s": "CHECK",
+    "why": "Condenser coil blocked or clearance insufficient for airflow on all sides.",
+    "fix": "Clear minimum clearance per manufacturer label on all four sides and top of condensing unit. Vegetation, walls, or adjacent equipment within clearance zone must be addressed.",
+    "rep": "IMC 2021 1111.1 / MFG: Condenser clearances must match manufacturer label. Restricted airflow causes high head pressure, reduced efficiency, and compressor overload."
+  },
+  {
+    "id": 138,
+    "t": "Commercial Refrigeration Defrost Drain",
+    "c": "IMC 2021 307.2 / MFG",
+    "s": "FAIL",
+    "why": "Defrost drain pan has no drain line or drain line is frozen.",
+    "fix": "Install drain line with minimum 1/4in per foot slope from defrost pan to floor drain. Install drain line heater in freezer applications to prevent freeze-up. Confirm drain terminates at approved location.",
+    "rep": "IMC 2021 307.2 / MFG: Defrost drain pans must have sloped drain lines. Drain line heater required in freezer applications."
+  },
+  {
+    "id": 139,
+    "t": "Refrigeration System Pressure Test",
+    "c": "IMC 2021 1104.1",
+    "s": "CHECK",
+    "why": "Refrigeration system not pressure tested before charging.",
+    "fix": "Pressure test with dry nitrogen to system high-side design pressure. Hold minimum 15 minutes with zero pressure drop. Document test pressure, hold time, date, and technician. Required for commercial permit sign-off.",
+    "rep": "IMC 2021 1104.1: Pressure test required before charging. Nitrogen to design pressure, 15-minute minimum hold, zero pressure drop, written documentation required."
+  },
+  {
+    "id": 140,
+    "t": "Refrigerant Safety Classification Label",
+    "c": "IMC 2021 1101.10",
+    "s": "CHECK",
+    "why": "Equipment label does not show refrigerant type or label is outdated after retrofit.",
+    "fix": "Confirm current refrigerant type label is affixed to equipment. If retrofit changed refrigerant from factory charge, update label with current refrigerant designation. A2L refrigerants require additional warning label per 2024 IMC.",
+    "rep": "IMC 2021 1101.10: Equipment must be labeled with current refrigerant type. Retrofit requires label update. A2L refrigerants need additional warning label per 2024 IMC."
+  },
+  {
+    "id": 141,
+    "t": "Zone Damper Bypass",
+    "c": "IMC 2021 603 / MFG",
+    "s": "CHECK",
+    "why": "Zone system has no bypass damper or relief for excess static pressure.",
+    "fix": "Install barometric bypass damper or modulating bypass to relieve static pressure when zones close. Without bypass, high static pressure when zones close causes blower noise, duct leaks, and heat exchanger stress on gas systems.",
+    "rep": "IMC 2021 603 / MFG: Zone systems require static pressure relief. Bypass damper prevents over-pressurization of duct system when zones close."
+  },
+  {
+    "id": 142,
+    "t": "Zone System Maximum Static Pressure",
+    "c": "IMC 2021 603 / MFG",
+    "s": "CHECK",
+    "why": "Duct static pressure exceeds equipment rated ESP with multiple zones closed.",
+    "fix": "Measure static pressure with minimum zone configuration (fewest zones open). Must not exceed equipment rated external static pressure. Increase bypass damper size or add return air if pressure exceeds rating.",
+    "rep": "IMC 2021 603 / MFG: System static pressure with minimum zones open must not exceed equipment rated ESP. Measure and verify — do not assume."
+  },
+  {
+    "id": 143,
+    "t": "Zone Board Wiring",
+    "c": "MFG",
+    "s": "CHECK",
+    "why": "Zone control board wired incorrectly — zones not responding or calling simultaneously.",
+    "fix": "Verify each zone thermostat wire matches correct zone terminal on control board. Confirm common (C) wire is connected at each thermostat. Test each zone independently before testing combined zone calls.",
+    "rep": "MFG requirement: Zone board wiring must be verified zone by zone. Each zone thermostat needs C wire connected. Test independently before combined testing."
+  },
+  {
+    "id": 144,
+    "t": "Zone Damper Actuator Operation",
+    "c": "MFG",
+    "s": "CHECK",
+    "why": "Zone damper not fully opening or closing on thermostat call.",
+    "fix": "Test each damper actuator with 24V applied directly. Damper must travel full open and full closed within 60-90 seconds. Stuck dampers cause zone temperature complaints and system imbalance.",
+    "rep": "MFG requirement: Each zone damper must open and close fully on 24V command. Test each damper independently. Stuck damper causes persistent zone temperature complaints."
+  },
+  {
+    "id": 145,
+    "t": "Zone System Minimum Airflow",
+    "c": "IMC 2021 603 / MFG",
+    "s": "CHECK",
+    "why": "Single zone calling provides insufficient airflow for equipment minimum CFM requirement.",
+    "fix": "Confirm smallest single zone provides minimum CFM required by equipment. If not, adjust bypass damper or set minimum zone open position. Gas furnaces require minimum airflow to prevent heat exchanger overheating.",
+    "rep": "IMC 2021 603 / MFG: Each zone must provide minimum equipment airflow requirement. Gas furnace minimum airflow must be maintained to prevent heat exchanger damage."
+  },
+  {
+    "id": 146,
+    "t": "Zone Thermostat Location",
+    "c": "MFG / IECC 2021 R403.1",
+    "s": "CHECK",
+    "why": "Thermostat located in supply air draft or direct sunlight — inaccurate temperature readings.",
+    "fix": "Relocate thermostat away from supply registers, exterior walls, direct sunlight, and heat-producing appliances. Ideal location is interior wall at 5ft height in area representative of zone temperature.",
+    "rep": "MFG / IECC 2021 R403.1: Thermostat must be located to accurately sense zone temperature. Supply air draft or solar gain causes false readings and system inefficiency."
+  },
+  {
+    "id": 147,
+    "t": "VRF System Refrigerant Piping",
+    "c": "IMC 2021 1103 / MFG",
+    "s": "CHECK",
+    "why": "VRF refrigerant piping installed without following manufacturer branch controller requirements.",
+    "fix": "VRF branch controllers and refrigerant piping must follow manufacturer piping diagrams exactly. Branch controller orientation, pipe sizing, and connection sequence are critical — deviation causes system-wide imbalance.",
+    "rep": "IMC 2021 1103 / MFG: VRF refrigerant piping must follow manufacturer piping diagrams. Branch controller placement and pipe sizing are engineering-critical — do not deviate."
+  },
+  {
+    "id": 148,
+    "t": "VRF Indoor Unit Drain Pan",
+    "c": "IMC 2021 307.2 / MFG",
+    "s": "FAIL",
+    "why": "VRF ducted or cassette indoor unit installed without confirmed condensate drain.",
+    "fix": "Verify each VRF indoor unit has drain pan and drain line installed with proper slope. Cassette units need drain pump if gravity drain is not possible. Test drain at commissioning.",
+    "rep": "IMC 2021 307.2 / MFG: Each VRF indoor unit requires condensate drain. Cassette units in flat ceilings typically need built-in condensate pump."
+  },
+  {
+    "id": 149,
+    "t": "ERV HRV Core Condition",
+    "c": "IMC 2021 514 / MFG",
+    "s": "CHECK",
+    "why": "ERV or HRV core dirty, damaged, or installed with supply and exhaust reversed.",
+    "fix": "Inspect core for damage or blockage. Confirm supply (fresh air in) and exhaust (stale air out) connections match unit labeling — reversal reduces efficiency and can cause moisture problems. Clean core per manufacturer schedule.",
+    "rep": "IMC 2021 514 / MFG: ERV and HRV cores must be clean and correctly connected. Supply and exhaust reversal causes significant efficiency loss and moisture issues."
+  },
+  {
+    "id": 150,
+    "t": "ERV HRV Defrost Mode",
+    "c": "MFG",
+    "s": "CHECK",
+    "why": "HRV freezing up in cold climate without defrost cycle.",
+    "fix": "Verify HRV has defrost controls enabled for cold climate operation. HRV defrost typically reduces exhaust airflow to warm the core before it freezes. ERV cores are less prone to freezing due to moisture transfer.",
+    "rep": "MFG requirement: HRV units require defrost mode in climates with outdoor temperatures below 14°F. Frozen HRV core blocks ventilation airflow entirely."
+  },
+  {
+    "id": 151,
+    "t": "Duct System Air Balancing",
+    "c": "IMC 2021 603 / MFG",
+    "s": "CHECK",
+    "why": "System not air balanced — some rooms over-conditioned, others uncomfortable.",
+    "fix": "Measure airflow at each register with anemometer or flow hood. Adjust dampers at branch takeoffs to distribute design CFM to each room. Total supply must equal total return within 10 percent.",
+    "rep": "IMC 2021 603 / MFG: Duct system must be balanced to deliver design airflow to each space. Unbalanced system causes comfort complaints and equipment inefficiency."
+  },
+  {
+    "id": 152,
+    "t": "Return Air Sizing",
+    "c": "IMC 2021 603 / MFG",
+    "s": "CHECK",
+    "why": "Return air system undersized — negative pressure in conditioned spaces, doors difficult to open.",
+    "fix": "Total return air free area must match total supply air CFM. Add return air grilles or transfer grilles between rooms if return air system is restrictive. Measure static pressure in return plenum — should not exceed negative 0.1 in WC.",
+    "rep": "IMC 2021 603 / MFG: Return air system must be sized to match supply airflow. Undersized return causes negative pressure, door problems, and combustion appliance backdraft risk."
+  },
+  {
+    "id": 153,
+    "t": "Duct Boot Sealing at Drywall",
+    "c": "IECC 2021 R403.3.2",
+    "s": "FAIL",
+    "why": "Duct boots not sealed to drywall — air leaks from unconditioned space into supply air.",
+    "fix": "Seal perimeter of all supply and return duct boots to drywall with mastic or listed foam sealant. Boot-to-drywall connection is the largest single source of duct leakage in residential systems.",
+    "rep": "IECC 2021 R403.3.2: Duct boot connections to drywall must be sealed. Boot perimeter gaps are the primary duct leakage source in residential systems."
+  },
+  {
+    "id": 154,
+    "t": "Outdoor Air Damper Minimum Position",
+    "c": "IMC 2021 403.2 / IECC 2021 C403.3",
+    "s": "CHECK",
+    "why": "Outdoor air damper minimum position not set or verified.",
+    "fix": "Set OA damper minimum position to deliver required ventilation CFM per IMC Table 403.3. Verify actual OA CFM with TAB measurement. Document minimum position setting in controls sequence of operations.",
+    "rep": "IMC 2021 403.2 / IECC 2021 C403.3: OA damper minimum position must be set and verified to deliver required ventilation air. TAB documentation required for commercial projects."
+  },
+  {
+    "id": 155,
+    "t": "Economizer Operation",
+    "c": "IECC 2021 C403.3.1",
+    "s": "CHECK",
+    "why": "Economizer not functioning — high-side lockout or damper stuck.",
+    "fix": "Test economizer function: verify damper opens to 100 percent on cool day below changeover setpoint. Verify high-limit controls (enthalpy or dry-bulb) lock out economizer when outdoor air is unsuitable. Failed economizer is an IECC violation on commercial systems.",
+    "rep": "IECC 2021 C403.3.1: Economizer must be functional on commercial systems where required. Test full-open operation and high-limit lockout at commissioning."
+  },
+  {
+    "id": 156,
+    "t": "Demand Control Ventilation",
+    "c": "IECC 2021 C403.3.2",
+    "s": "CHECK",
+    "why": "High-occupancy commercial space without demand controlled ventilation.",
+    "fix": "DCV required for spaces over 500 sq ft with design occupancy exceeding 40 people per 1000 sq ft (IECC 2021 C403.3.2). Install CO2 sensors and link to OA damper control. Setpoint typically 1100 PPM CO2.",
+    "rep": "IECC 2021 C403.3.2: Demand controlled ventilation required for high-density occupancy spaces over 500 sq ft. CO2 sensor must control OA damper."
+  },
+  {
+    "id": 157,
+    "t": "Supply Air Temperature Reset",
+    "c": "IECC 2021 C403.3.3",
+    "s": "CHECK",
+    "why": "VAV system supply air temperature not reset based on zone demand.",
+    "fix": "Program supply air temperature reset in DDC controls. Typical reset: raise SAT from 55°F toward 65°F as zone cooling loads decrease. Supply air reset reduces reheat energy and improves system efficiency.",
+    "rep": "IECC 2021 C403.3.3: VAV systems must have supply air temperature reset controls. Fixed 55°F supply air with all zones calling for heat is an energy code violation."
+  },
+  {
+    "id": 158,
+    "t": "Setback Controls Commercial",
+    "c": "IECC 2021 C403.3",
+    "s": "FAIL",
+    "why": "Commercial HVAC system has no unoccupied setback programmed.",
+    "fix": "Program unoccupied setback in DDC or programmable controls. Heating setback to 55°F minimum. Cooling setup to 85°F maximum during unoccupied periods. Setback must activate automatically on schedule.",
+    "rep": "IECC 2021 C403.3: Commercial HVAC must have programmed setback during unoccupied periods. Manual setback does not comply — must be automatic."
+  },
+  {
+    "id": 159,
+    "t": "Variable Frequency Drive",
+    "c": "IECC 2021 C403.3.4",
+    "s": "CHECK",
+    "why": "VAV fan system over 10 HP without variable frequency drive.",
+    "fix": "Install VFD on supply and return fans serving VAV systems where fan motor exceeds 10 HP. VFD must modulate fan speed in response to duct static pressure. Required for IECC compliance on commercial VAV systems.",
+    "rep": "IECC 2021 C403.3.4: VAV fan systems over 10 HP require variable frequency drives. Constant speed fans on VAV systems violate energy code."
+  },
+  {
+    "id": 160,
+    "t": "Radiant Ceiling Panel Clearance",
+    "c": "IMC 2021 1205 / MFG",
+    "s": "CHECK",
+    "why": "Radiant ceiling panel installed without minimum clearance to combustible materials.",
+    "fix": "Verify clearance to all combustible materials per manufacturer label and IMC 1205. Typically 8in minimum to combustible ceiling materials directly above panel surface.",
+    "rep": "IMC 2021 1205 / MFG: Radiant ceiling panels require minimum clearance to combustibles. Check manufacturer label for specific clearance requirements."
+  },
+  {
+    "id": 161,
+    "t": "Gas Furnace Heat Exchanger",
+    "c": "IMC 2021 803 / MFG",
+    "s": "FAIL",
+    "why": "Cracked or failed heat exchanger — CO detected in supply air.",
+    "fix": "Shut down furnace immediately. Do not operate until heat exchanger is replaced. A cracked heat exchanger allows combustion gases including CO to mix with supply air. This is a life-safety emergency.",
+    "rep": "IMC 2021 803 / MFG: Cracked heat exchanger is a life-safety emergency. Shut down immediately. CO in supply air is grounds for red tag and condemned equipment notice."
+  },
+  {
+    "id": 162,
+    "t": "Furnace Induced Draft Motor",
+    "c": "IMC 2021 802 / MFG",
+    "s": "FAIL",
+    "why": "Induced draft motor not proving before gas valve opens.",
+    "fix": "Verify inducer pressure switch proves inducer operation before ignition sequence begins. Check pressure switch tubing for cracks or blockage. If inducer runs but switch does not prove, check switch calibration or replace.",
+    "rep": "IMC 2021 802 / MFG: Induced draft furnace must prove inducer operation before gas valve opens. Failed prove switch prevents ignition — do not bypass safety."
+  },
+  {
+    "id": 163,
+    "t": "Gas Valve Redundancy",
+    "c": "IMC 2021 / ANSI Z21.47",
+    "s": "CHECK",
+    "why": "Single-seat gas valve used on appliance requiring redundant safety shutoff.",
+    "fix": "Residential furnaces and boilers require redundant (double-block) gas valves per ANSI Z21.47. Combination gas valve with two internal seats satisfies this requirement. Field-installed single solenoid valve does not comply.",
+    "rep": "IMC 2021 / ANSI Z21.47: Gas-fired appliances require redundant safety shutoff valves. Listed combination valve with two internal seats required."
+  },
+  {
+    "id": 164,
+    "t": "Furnace Flue Gas CO Test",
+    "c": "IMC 2021 701 / MFG",
+    "s": "CHECK",
+    "why": "Furnace startup completed without CO verification test.",
+    "fix": "Test flue gas CO at furnace flue collar at steady-state operation. Acceptable: under 100 PPM air-free CO for residential furnaces. Above 400 PPM indicates serious combustion problem requiring immediate correction.",
+    "rep": "IMC 2021 701 / MFG: CO test required at furnace commissioning. Over 100 PPM air-free CO in flue gas indicates combustion problem. Over 400 PPM is an immediate safety concern."
+  },
+  {
+    "id": 165,
+    "t": "Condensing Furnace Vent Slope",
+    "c": "IMC 2021 803.5 / MFG",
+    "s": "FAIL",
+    "why": "PVC vent pipe on condensing furnace slopes toward furnace instead of toward termination.",
+    "fix": "Condensing furnace PVC vent must slope minimum 1/4in per foot toward the outdoor termination so condensate drains out. Condensate pooling in vent pipe causes corrosion and blocked flue condition.",
+    "rep": "IMC 2021 803.5 / MFG: Condensing furnace PVC vent must slope toward outdoor termination for condensate drainage. Reverse slope traps condensate and blocks the flue."
+  },
+  {
+    "id": 166,
+    "t": "Condensing Furnace Condensate Neutralizer",
+    "c": "IPC 2021 803 / MFG",
+    "s": "CHECK",
+    "why": "Condensing furnace condensate draining directly to sanitary without neutralizer in jurisdiction requiring it.",
+    "fix": "Check local plumbing authority requirements. Some jurisdictions require condensate neutralizer on high-efficiency furnace and boiler condensate before discharge to sanitary drain. Install calcite-based neutralizer if required.",
+    "rep": "IPC 2021 803 / MFG: Some jurisdictions require condensate neutralizer on high-efficiency appliance drain. Condensate is mildly acidic — check local requirements before connecting to drain."
+  },
+  {
+    "id": 167,
+    "t": "Rooftop Unit Curb Flashing",
+    "c": "IMC 2021 304 / MFG",
+    "s": "FAIL",
+    "why": "RTU curb not properly flashed — water intrusion around unit base.",
+    "fix": "Install listed RTU roof curb with proper counterflashing. Curb height must be minimum 8in above finished roof surface. Flash curb-to-roof connection per roofing manufacturer requirements.",
+    "rep": "IMC 2021 304 / MFG: RTU roof curb must be minimum 8in above roof surface and properly flashed. Improper flashing causes water intrusion and structural damage."
+  },
+  {
+    "id": 168,
+    "t": "Rooftop Unit Condensate Overflow",
+    "c": "IMC 2021 307.2",
+    "s": "CHECK",
+    "why": "RTU condensate drain clogged — water overflowing onto roof surface.",
+    "fix": "Clear primary drain. Verify primary drain flows to roof drain or scupper — not onto roof membrane. Install secondary drain connection or overflow sensor on RTU drain pan.",
+    "rep": "IMC 2021 307.2: RTU condensate must drain to roof drain or scupper. Overflow onto roof membrane is not an approved discharge location."
+  },
+  {
+    "id": 169,
+    "t": "Gas Unit Heater Suspension",
+    "c": "IMC 2021 305 / MFG",
+    "s": "FAIL",
+    "why": "Suspended gas unit heater not mounted with manufacturer specified fasteners and spacing.",
+    "fix": "Mount unit heater with manufacturer specified hanger rods, size, and spacing. Verify structural attachment point can support unit weight plus 3x safety factor. Gas line flexible connector must accommodate movement.",
+    "rep": "IMC 2021 305 / MFG: Suspended unit heaters must be mounted per manufacturer specifications. Structural attachment must support rated load with safety factor."
+  },
+  {
+    "id": 170,
+    "t": "Gas Unit Heater Clearances",
+    "c": "IMC 2021 304.1 / MFG",
+    "s": "FAIL","why": "Gas unit heater installed with insufficient clearance to combustibles below or to sides.",
+    "fix": "Read equipment label for required clearances. Typical unit heater: 18-48in below unit to combustible floor, 6in to side combustibles. Label controls — check before installation in tight spaces.",
+    "rep": "IMC 2021 304.1 / MFG: Unit heater clearances must match equipment label. Insufficient clearance below a suspended gas heater is a fire code violation."
+  },
+  {
+    "id": 171,
+    "t": "Infrared Heater Clearances",
+    "c": "IMC 2021 304.1 / MFG",
+    "s": "FAIL",
+    "why": "Infrared heater installed with insufficient clearance to combustible materials in radiation path.",
+    "fix": "Read equipment label for minimum clearances above, below, and to sides. Infrared heaters radiate heat in a cone pattern — clearance to combustibles in the radiation pattern is critical and often larger than side clearances.",
+    "rep": "IMC 2021 304.1 / MFG: Infrared heater clearances must match label. Clearance in the radiation cone below the unit is typically 36-60in — check label carefully."
+  },
+  {
+    "id": 172,
+    "t": "Duct Smoke Detector",
+    "c": "IMC 2021 606.4",
+    "s": "FAIL",
+    "why": "Air handling unit over 2000 CFM has no duct smoke detector on supply duct.",
+    "fix": "Install listed duct smoke detector in supply duct downstream of filters and prior to supply outlets for AHUs over 2000 CFM. Detector must shut down AHU on smoke detection.",
+    "rep": "IMC 2021 606.4: AHUs over 2000 CFM require duct smoke detector on supply air. Detector must be wired to shut down the AHU on activation."
+  },
+  {
+    "id": 173,
+    "t": "Duct Smoke Detector Return Air",
+    "c": "IMC 2021 606.4",
+    "s": "FAIL",
+    "why": "AHU over 15000 CFM has no duct smoke detector on return air duct.",
+    "fix": "Install duct smoke detector in return air duct for AHUs over 15000 CFM. Return detector shuts down AHU to prevent smoke recirculation through building.",
+    "rep": "IMC 2021 606.4: AHUs over 15000 CFM require duct smoke detector on both supply and return ducts."
+  },
+  {
+    "id": 174,
+    "t": "Kitchen Exhaust Grease Trap",
+    "c": "IMC 2021 506.3.3",
+    "s": "CHECK",
+    "why": "No grease trap or collection device at base of grease exhaust riser.",
+    "fix": "Install grease collection container at base of each vertical grease duct riser. Container must be accessible for cleaning. Grease accumulation at duct base without collection creates fire hazard.",
+    "rep": "IMC 2021 506.3.3: Grease collection device required at base of vertical grease duct risers. Must be accessible for cleaning and inspection."
+  },
+  {
+    "id": 175,
+    "t": "Kitchen Hood Listed Rating",
+    "c": "IMC 2021 507.1",
+    "s": "CHECK",
+    "why": "Residential hood installed over commercial cooking equipment.",
+    "fix": "Commercial cooking equipment requires listed commercial Type I or Type II hood per IMC Table 507.1. Residential hoods are not listed for commercial cooking use — insufficient grease capture and no fire suppression connection.",
+    "rep": "IMC 2021 507.1: Commercial cooking equipment requires listed commercial Type I or II hood. Residential hoods are not listed for commercial cooking applications."
+  },
+  {
+    "id": 176,
+    "t": "Makeup Air Tempering",
+    "c": "IMC 2021 507.5 / MFG",
+    "s": "CHECK",
+    "why": "Untempered makeup air creating comfort problems or freezing issues in cold climate.",
+    "fix": "In Climate Zones 5-8, makeup air must be tempered to minimum 50°F before introduction into kitchen. Install gas or electric makeup air tempering unit on MUA system for cold climate applications.",
+    "rep": "IMC 2021 507.5 / MFG: Makeup air must be tempered in cold climates. Untempered cold air entering kitchen creates comfort problems and freezing risk at air handling equipment."
+  },
+  {
+    "id": 177,
+    "t": "Pressure Dependent VAV Box",
+    "c": "IECC 2021 C403.3 / MFG",
+    "s": "CHECK",
+    "why": "Pressure-dependent VAV boxes installed where pressure-independent required.",
+    "fix": "Systems with variable static pressure require pressure-independent VAV boxes with flow controllers to maintain design airflow regardless of duct pressure changes. Pressure-dependent boxes do not comply with IECC C403.3 on new commercial installations.",
+    "rep": "IECC 2021 C403.3 / MFG: New commercial VAV installations require pressure-independent VAV boxes. Pressure-dependent boxes do not maintain design airflow as system static varies."
+  },
+  {
+    "id": 178,
+    "t": "Fan Coil Unit Drain Pan",
+    "c": "IMC 2021 307.3",
+    "s": "FAIL",
+    "why": "Fan coil unit drain pan not sloped or pan too small for coil footprint.",
+    "fix": "Drain pan must extend 3in beyond coil on all sides and slope toward drain outlet. Fan coil units in horizontal configuration require larger pan — verify pan extends beyond coil in the airflow direction.",
+    "rep": "IMC 2021 307.3: Fan coil drain pan must extend 3in beyond coil on all sides and slope toward drain outlet."
+  },
+  {
+    "id": 179,
+    "t": "Chilled Water Pipe Insulation Vapor Barrier",
+    "c": "IECC 2021 R403.4 / MFG",
+    "s": "FAIL",
+    "why": "Chilled water pipe insulation has no vapor barrier — condensation forming on pipe surface.",
+    "fix": "Chilled water pipe insulation must have continuous vapor-retarder jacket with all seams sealed. Any break in vapor barrier causes condensation to form inside insulation, saturating it and eliminating insulating value.",
+    "rep": "IECC 2021 R403.4 / MFG: Chilled water pipe insulation requires continuous vapor-retarder jacket with sealed seams. Condensation inside insulation destroys insulating value and causes corrosion."
+  },
+  {
+    "id": 180,
+    "t": "Energy Recovery Ventilator Sizing",
+    "c": "IECC 2021 C403.5 / IMC 2021 514",
+    "s": "CHECK",
+    "why": "ERV undersized for system outdoor air requirement or installed without balancing.",
+    "fix": "ERV must be sized for design outdoor air CFM — not total supply CFM. Balance ERV so supply and exhaust airflows are within 10 percent of each other. Imbalanced ERV causes building pressurization problems.",
+    "rep": "IECC 2021 C403.5 / IMC 2021 514: ERV must be sized for design OA CFM and balanced within 10 percent supply-to-exhaust. Imbalanced ERV causes building pressure and moisture problems."
+  }
 ]
+
