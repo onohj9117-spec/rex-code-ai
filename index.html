@@ -84,7 +84,8 @@ if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js");}
 const lockScreen=document.getElementById("lockScreen"),appScreen=document.getElementById("appScreen");
 const q=document.getElementById("q"),s=document.getElementById("s"),res=document.getElementById("res"),meta=document.getElementById("meta"),waField=document.getElementById("waField"),topBtns=document.getElementById("topBtns");
 let codes=[],WA=localStorage.getItem("rexWA")||"",TIER=localStorage.getItem("rexTier")||"";
-
+let codes=[],WA=localStorage.getItem("rexWA")||"",TIER=localStorage.getItem("rexTier")||"",KEY=localStorage.getItem("rexKey")||"";
+  
 if(TIER){
   lockScreen.classList.add("hidden");appScreen.classList.remove("hidden");
 }
