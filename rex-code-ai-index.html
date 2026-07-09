@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f97316">
+<title>Rex Code AI</title>
+<style>
+:root{--bg:#0b1220;--card:#0f172a;--muted:#94a3b8;--txt:#e5e7eb;--accent:#fb923c;--accent2:#f97316}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.5 system-ui,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--txt)}
+.wrap{max-width:420px;margin:0 auto;padding:24px}
+h1{font-size:24px;margin:0 0 4px;white-space:nowrap}
+.hook{color:var(--txt);font-size:14px;font-weight:600;margin:0 0 16px;line-height:1.4}
+.hook .pop{color:var(--accent)}
+.sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+input,button{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b1220;color:var(--txt);padding:0 12px;font-size:16px}
+input{width:100%;min-width:0}
+input:focus{outline:2px solid var(--accent);border-color:transparent}
+button{cursor:pointer;background:var(--accent);border:0;font-weight:700;font-size:14px;padding:10px 16px}
+button.ghost{background:#111827;border:1px solid #374151;color:var(--txt)}
+button.ghost:active{background:#1f2937}
+.muted{color:var(--muted);font-size:12px;margin-top:8px;text-align:center}
+.hidden{display:none}
+.hdr{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.topbar{display:flex;justify-content:space-between;align-items:center;width:100%}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:12px}
+.card{background:var(--card);border:1px solid #1f2937;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.tag{font-size:11px;border-radius:999px;padding:3px 10px;display:inline-block;width:fit-content;font-weight:700;color:#fff}
+.tag.fail{background:#dc2626}
+.tag.check{background:#f59e0b}
+.tag.pass{background:#16a34a}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn-row button{flex:1;min-width:110px;height:38px;font-size:12px}
+.btn-full{width:100%;height:38px;font-size:12px;margin-top:2px}
+.reb-box{display:none;background:#0b1220;border:1px solid #374151;border-radius:10px;padding:12px;font-size:13px;line-height:1.7;color:var(--txt);margin-top:2px}
+.reb-box.open{display:block}
+label{font-size:12px;color:var(--muted);margin-top:8px;display:block}
+select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b1220;color:var(--txt);padding:0 8px;font-size:16px}
+.searchrow{display:flex;gap:8px;margin-bottom:4px}
+.searchrow input{flex:1}
+.searchrow select{width:90px}
+.searchrow .btn{width:90px;height:48px}
+#quickChips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px 0}
+.quick{background:#1e293b;color:var(--txt);border:1px solid #374151;border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;height:auto}
+.quick:active{background:var(--accent2);border-color:transparent;color:#fff}
+#unlockBtn{margin-top:14px;width:100%}
+.err{color:#f87171;font-size:13px;margin-top:6px;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="wrap" id="lockScreen">
+  <h1>Rex Code AI</h1>
+  <p class="hook"><span class="pop">Stop red tags.</span> Win inspector arguments. One link for your whole crew.</p>
+  <p class="sub">Enter License Key</p>
+  <input id="key" placeholder="SOLO-XXXX or CREW-XXXX" autocomplete="off" autocapitalize="characters" onkeydown="if(event.key==='Enter')unlock()"/>
+  <div id="waField" class="hidden">
+    <label for="wa">WhatsApp Number (CREW only)</label>
+    <input id="wa" placeholder="+1 5551234567" type="tel"/>
+    <p class="muted" style="text-align:left">US Format: +1 then 10 digits. No spaces.</p>
+  </div>
+  <button id="unlockBtn" onclick="unlock()">Unlock</button>
+  <div id="lockErr" class="err hidden"></div>
+  <p class="muted" style="margin-top:14px">SOLO = View only &nbsp;|&nbsp; CREW = Copy + Send + Rebuttal + WhatsApp</p>
+</div>
+
+<div class="wrap hidden" id="appScreen">
+  <div class="hdr">
+    <div class="topbar">
+      <h1>Rex Code AI</h1>
+      <div class="row">
+        <button class="ghost" id="waBtn" style="height:40px;padding:0 12px;font-size:12px;display:none" onclick="changeWA()">WA</button>
+        <button class="ghost" style="height:40px;padding:0 12px;font-size:12px" onclick="logout()">Logout</button>
+      </div>
+    </div>
+    <p class="sub">Base: 2021 IMC / 2021 IECC. 180 codes.</p>
+  </div>
+  <div class="searchrow">
+    <input id="q" placeholder="dryer, b-vent, attic unit..." onkeydown="if(event.key==='Enter')doSearch()"/>
+    <select id="s"><option value="">All</option><option>FAIL</option><option>CHECK</option><option>PASS</option></select>
+    <button class="btn" onclick="doSearch()">Search</button>
+  </div>
+  <div id="quickChips">
+    <button class="quick" onclick="quickSearch('Dryer')">Dryer</button>
+    <button class="quick" onclick="quickSearch('Bath')">Bath Fan</button>
+    <button class="quick" onclick="quickSearch('Condensate')">Condensate</button>
+    <button class="quick" onclick="quickSearch('Flex')">Flex Duct</button>
+    <button class="quick" onclick="quickSearch('Gas')">Gas</button>
+    <button class="quick" onclick="quickSearch('Combustion')">Combustion</button>
+    <button class="quick" onclick="quickSearch('Heat Pump')">Heat Pump</button>
+    <button class="quick" onclick="quickSearch('Boiler')">Boiler</button>
+    <button class="quick" onclick="quickSearch('Zone')">Zone</button>
+    <button class="quick" onclick="quickSearch('Venting')">Venting</button>
+  </div>
+  <div id="meta" class="muted"></div>
+  <div id="res" class="grid"></div>
+</div>
+
+<script>
+if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js");}
+
+// INCREMENT this every time you update codes.json
+const DB_VERSION="v3";
+
+let codes=[],TIER=localStorage.getItem("rexTier")||"",WA=localStorage.getItem("rexWA")||"",KEY=localStorage.getItem("rexKey")||"";
+const lockScreen=document.getElementById("lockScreen"),appScreen=document.getElementById("appScreen"),meta=document.getElementById("meta"),res=document.getElementById("res"),waBtn=document.getElementById("waBtn");
+
+// Auto-login
+if(TIER){
+  lockScreen.classList.add("hidden");
+  appScreen.classList.remove("hidden");
+  if(TIER==="CREW"&&waBtn)waBtn.style.display="inline-block";
+  loadCodes();
+}
+
+// Show WA field for CREW keys only
+document.getElementById("key").addEventListener("input",e=>{
+  document.getElementById("waField").classList.toggle("hidden",!e.target.value.trim().toUpperCase().startsWith("CREW"));
+});
+
+function formatUS(n){const d=n.replace(/\D/g,"");if(d.length===11&&d.startsWith("1"))return d;if(d.length===10)return"1"+d;return d;}
+
+function showErr(m){const e=document.getElementById("lockErr");e.textContent=m;e.classList.remove("hidden");}
+function clearErr(){document.getElementById("lockErr").classList.add("hidden");}
+
+function unlock(){
+  clearErr();
+  const k=document.getElementById("key").value.trim().toUpperCase();
+  const w=document.getElementById("wa").value.trim();
+  if(!k){showErr("Enter your license key.");return;}
+  if(k.startsWith("CREW-")&&k.length>=8){
+    const wfmt=formatUS(w);
+    if(wfmt.length!==11){showErr("CREW requires a valid US WhatsApp number. Ex: +1 5551234567");return;}
+    WA=wfmt;localStorage.setItem("rexWA",WA);TIER="CREW";
+  }else if(k.startsWith("SOLO-")&&k.length>=8){
+    TIER="SOLO";
+  }else{showErr("Invalid key. Must be SOLO-XXXX or CREW-XXXX");return;}
+  KEY=k;localStorage.setItem("rexTier",TIER);localStorage.setItem("rexKey",KEY);
+  lockScreen.classList.add("hidden");appScreen.classList.remove("hidden");
+  if(TIER==="CREW"&&waBtn)waBtn.style.display="inline-block";
+  loadCodes();
+}
+
+function logout(){["rexTier","rexWA","rexKey"].forEach(k=>localStorage.removeItem(k));location.reload();}
+
+function changeWA(){
+  const n=prompt("New US WhatsApp number:\nEx: +1 5551234567");if(!n)return;
+  const wfmt=formatUS(n);if(wfmt.length!==11){alert("Invalid. Enter 10 digits after +1.");return;}
+  WA=wfmt;localStorage.setItem("rexWA",WA);alert("WhatsApp number updated.");
+}
+
+// FIX: no-cache + version param — always loads fresh database
+// FIX: loads ONCE on startup, not on every search
+async function loadCodes(){
+  if(meta)meta.textContent="Loading database...";
+  try{
+    const r=await fetch(`codes.json?v=${DB_VERSION}`,{cache:"no-cache"});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    codes=await r.json();
+    if(meta)meta.textContent=`${codes.length} codes loaded. Search above or tap a chip.`;
+  }catch(e){
+    if(meta)meta.textContent="Error loading database: "+e.message;
+    console.error("loadCodes:",e);
+  }
+}
+
+function quickSearch(term){document.getElementById("q").value=term;doSearch();}
+
+function doSearch(){
+  if(!codes.length){if(meta)meta.textContent="Database loading — try again in a moment.";return;}
+  const term=(document.getElementById("q").value||"").toLowerCase().trim();
+  const status=document.getElementById("s").value||"";
+  const list=codes.filter(c=>(!status||c.s===status)&&(!term||c.t.toLowerCase().includes(term)||c.c.toLowerCase().includes(term)||c.why.toLowerCase().includes(term)||c.fix.toLowerCase().includes(term)));
+  render(list);
+}
+
+// Keep old name working
+function load(){doSearch();}
+
+function render(list){
+  if(!res)return;
+  if(meta)meta.textContent=`Found ${list.length} of ${codes.length} codes.`;
+  res.innerHTML="";
+  if(!list.length){
+    res.innerHTML=`<div class="card" style="text-align:center;padding:20px"><p style="color:var(--muted);margin:0">No results. Try a different keyword.</p></div>`;
+    return;
+  }
+  list.forEach(code=>{
+    const rebId="reb-"+code.id;
+    const safeT=esc(code.t),safeC=esc(code.c),safeW=esc(code.why),safeF=esc(code.fix),safeR=esc(code.rep);
+
+    // FIX: Copy Report CREW only — SOLO sees disabled button
+    const copyBtn=TIER==="CREW"
+      ?`<button class="ghost" onclick="copyRep('${safeR}')">📋 Copy Report</button>`
+      :`<button class="ghost" style="opacity:0.35" disabled>📋 CREW Only</button>`;
+
+    // Send Report via WhatsApp — CREW only
+    const sendBtn=TIER==="CREW"
+      ?`<button class="ghost" onclick="sendReport('${safeC}','${safeW}','${safeF}')">📤 Send Report</button>`
+      :"";
+
+    // Inspector Rebuttal — CREW only, shows INLINE so tech reads it to inspector on site
+    const rebBtn=TIER==="CREW"
+      ?`<button class="ghost btn-full" onclick="toggleReb('${rebId}','${safeR}')">🛡 Inspector Rebuttal</button><div class="reb-box" id="${rebId}"></div>`
+      :"";
+
+    const d=document.createElement("div");d.className="card";
+    d.innerHTML=`
+      <div class="tag ${code.s.toLowerCase()}">${code.s}</div>
+      <h3 style="margin:2px 0;font-size:16px">${safeT}</h3>
+      <div style="font-size:12px;color:var(--muted)">${safeC}</div>
+      <div style="font-size:14px">${safeW}</div>
+      <div style="font-size:14px"><b>Fix:</b> ${safeF}</div>
+      <div class="btn-row">${copyBtn}${sendBtn}</div>
+      ${rebBtn}`;
+    res.appendChild(d);
+  });
+}
+
+// Inspector Rebuttal — toggles inline on the card
+function toggleReb(id,text){
+  const box=document.getElementById(id);if(!box)return;
+  if(box.classList.contains("open")){box.classList.remove("open");box.innerHTML="";}
+  else{
+    box.innerHTML=text.replace(/&quot;/g,'"').replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/\\n/g,"<br>").replace(/\\'/g,"'");
+    box.classList.add("open");
+  }
+}
+
+function copyRep(text){
+  const clean=text.replace(/\\n/g,"\n").replace(/\\'/g,"'").replace(/&quot;/g,'"');
+  if(navigator.clipboard){navigator.clipboard.writeText(clean).then(()=>alert("Copied!")).catch(()=>fallbackCopy(clean));}
+  else{fallbackCopy(clean);}
+}
+function fallbackCopy(text){
+  const ta=document.createElement("textarea");ta.value=text;ta.style.cssText="position:fixed;opacity:0;top:0;left:0";
+  document.body.appendChild(ta);ta.focus();ta.select();
+  try{document.execCommand("copy");alert("Copied.");}catch{alert("Copy failed.");}
+  document.body.removeChild(ta);
+}
+
+// Send Report via WhatsApp — uses real KEY as job reference
+function sendReport(c,why,fix){
+  if(!WA){alert("No WhatsApp number saved. Tap WA button to add one.");return;}
+  const jobRef=KEY||"REX";
+  const txt=[
+    "*Rex Code AI Report*","",
+    `*Code Section:* ${c}`,
+    `*Finding:* ${why}`,
+    `*Required Fix:* ${fix}`,"",
+    `*Job Reference:* ${jobRef}`,"",
+    "Powered by Rex Code AI — rex-code-ai.vercel.app"
+  ].join("%0A");
+  window.open(`https://wa.me/${WA}?text=${txt}`,"_blank");
+}
+
+function esc(str){
+  return(str||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+</script>
+</body>
+</html>
