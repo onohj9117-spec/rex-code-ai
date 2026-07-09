@@ -1,4 +1,4 @@
-const CACHE = "rex-ai-v3"; // Bumped from v1 to force update
+const CACHE = "rex-ai-v4"; // Bumped from v1 to force update
 const ASSETS = ["./","./index.html","./codes.json","./manifest.json"];
 
 self.addEventListener("install", e=>{
