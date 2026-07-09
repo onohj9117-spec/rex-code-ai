@@ -18,18 +18,18 @@ button.ghost{background:#111827;border:1px solid #374151}
 .hdr{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
 .topbar{display:flex;justify-content:space-between;align-items:center;width:100%}
 .iconbtn{width:44px;height:44px;padding:0;font-size:20px;display:grid;place-items:center}
-.row{display:flex;gap:8px;align-items:center}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap} /* added wrap for 3 buttons */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:12px}
 .card{background:var(--card);border:1px solid #1f2937;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.tag{font-size:11px;border-radius:999px;padding:2px 8px;display:inline-block;width:fit-content;font-weight:700;color:#fff} /* REFINE 1: solid badges */
-.tag.fail{ background:#dc2626; }   /* solid red */
-.tag.check{ background:#f59e0b; }  /* solid amber */
-.tag.pass{ background:#16a34a; }   /* solid green */
+.tag{font-size:11px;border-radius:999px;padding:2px 8px;display:inline-block;width:fit-content;font-weight:700;color:#fff}
+.tag.fail{ background:#dc2626; }
+.tag.check{ background:#f59e0b; }
+.tag.pass{ background:#16a34a; }
 label{font-size:12px;color:var(--muted);margin-top:8px;display:block}
 select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b1220;color:var(--txt);padding:0 8px;font-size:16px}
 .searchrow .btn{flex:1}
 
-/* REFINE 2: Quick Chips - smaller + darker */
+/* Quick Chips - smaller + darker */
 #quickChips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px 0}
 .quick{background:var(--accent2);color:#fff;border:none;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer}
 .quick:active{opacity:0.8}
@@ -45,7 +45,7 @@ select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b122
     <p class="muted" style="text-align:left">US Format: +1 10 digits. Ex: +1 5551234567</p>
   </div>
   <button onclick="unlock()">Unlock</button>
-  <p class="muted">SOLO = View. CREW = Copy + Rebuttal</p>
+  <p class="muted">SOLO = View. CREW = Copy + Send + Rebuttal</p>
 </div>
 
 <div class="wrap hidden" id="appScreen">
@@ -83,7 +83,6 @@ if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js");}
 
 const lockScreen=document.getElementById("lockScreen"),appScreen=document.getElementById("appScreen");
 const q=document.getElementById("q"),s=document.getElementById("s"),res=document.getElementById("res"),meta=document.getElementById("meta"),waField=document.getElementById("waField"),topBtns=document.getElementById("topBtns");
-let codes=[],WA=localStorage.getItem("rexWA")||"",TIER=localStorage.getItem("rexTier")||"";
 let codes=[],WA=localStorage.getItem("rexWA")||"",TIER=localStorage.getItem("rexTier")||"",KEY=localStorage.getItem("rexKey")||"";
   
 if(TIER){
@@ -114,11 +113,11 @@ function unlock(){
     const wfmt=formatUS(w);
     if(wfmt.length!==11){alert("CREW needs US WhatsApp # first. Ex: +1 5551234567");return}
     localStorage.setItem("rexWA",wfmt);
-    localStorage.setItem("rexKey",k); // SAVE ACTUAL KEY
+    localStorage.setItem("rexKey",k);
     WA=wfmt;TIER="CREW";KEY=k;
   }
   else if(k.startsWith("SOLO-")){
-    localStorage.setItem("rexKey",k); // SAVE ACTUAL KEY
+    localStorage.setItem("rexKey",k);
     TIER="SOLO";KEY=k;
   }
   else{alert("Invalid key");return}
@@ -130,7 +129,7 @@ function changeWA(){
   const n=prompt("New US WhatsApp # Ex: +1 5551234567");
   if(n){const wfmt=formatUS(n);if(wfmt.length===11){localStorage.setItem("rexWA",wfmt);WA=wfmt;alert("Saved")}else{alert("Enter 10 digits")}}
 }
-function logout(){localStorage.removeItem("rexTier");localStorage.removeItem("rexWA");location.reload()}
+function logout(){localStorage.removeItem("rexTier");localStorage.removeItem("rexWA");localStorage.removeItem("rexKey");location.reload()}
 
 async function load(){
   meta.textContent="Searching...";
@@ -149,10 +148,10 @@ function render(list){
   list.forEach(code=>{
     const d=document.createElement("div");d.className="card";
     let btns=`<button class="ghost" style="height:36px" onclick="copyRep('${code.rep.replace(/'/g,"\\'")}')">📋 Copy Report</button>`;
-if(TIER==="CREW"){
-  btns+=`<button class="ghost" style="height:36px" onclick="sendReport('${code.c}','${code.why.replace(/'/g,"\\'")}','${code.fix.replace(/'/g,"\\'")}')">📤 Send Report</button>`;
-  btns+=`<button class="ghost" style="height:36px" onclick="inspectorRebuttal('${code.c}','${code.why.replace(/'/g,"\\'")}','${code.fix.replace(/'/g,"\\'")}')">🛡️ Inspector Rebuttal</button>`;
-}
+    if(TIER==="CREW"){
+      btns+=`<button class="ghost" style="height:36px" onclick="sendReport('${code.c}','${code.why.replace(/'/g,"\\'")}','${code.fix.replace(/'/g,"\\'")}')">📤 Send Report</button>`;
+      btns+=`<button class="ghost" style="height:36px" onclick="inspectorRebuttal('${code.c}','${code.why.replace(/'/g,"\\'")}','${code.fix.replace(/'/g,"\\'")}')">🛡️ Inspector Rebuttal</button>`;
+    }
     d.innerHTML=`<div class="tag ${code.s.toLowerCase()}">${code.s}</div>
       <h3>${code.t}</h3><div class="muted">${code.c}</div>
       <div>${code.why}</div><div><b>Fix:</b> ${code.fix}</div>
@@ -161,11 +160,16 @@ if(TIER==="CREW"){
   })
 }
 function copyRep(t){navigator.clipboard.writeText(t);alert("Copied!")}
-function waRebuttal(c,why,rep){
+
+function sendReport(c,why,rep){
   if(!WA){alert("Set WhatsApp # first");return}
-  const jobRef = TIER==="CREW" ? "CREW-1234" : "SOLO";
-  // REFINE 3: Marketing footer added
-  const txt=`*Rex Code AI Rebuttal*%0A%0A*Code Section:* ${c}%0A*Finding:* ${why}%0A*Required Fix:* ${rep}%0A%0A*Job Reference:* ${jobRef}%0A%0APowered by Rex Code AI — rex-code-ai.vercel.app`;
+  const txt=`*Rex Code AI Report*%0A%0A*Code Section:* ${c}%0A*Finding:* ${why}%0A*Required Fix:* ${rep}%0A%0A*Job Reference:* ${KEY}%0A%0APowered by Rex Code AI — rex-code-ai.vercel.app`;
+  window.open(`https://wa.me/${WA}?text=${txt}`,'_blank');
+}
+
+function inspectorRebuttal(c,why,rep){
+  if(!WA){alert("Set WhatsApp # first");return}
+  const txt=`*Rex Code AI Inspector Rebuttal*%0A%0A*Code Section:* ${c}%0A*Inspector Finding:* ${why}%0A*Code Requirement:* ${rep}%0A%0A*Job Reference:* ${KEY}%0A%0APowered by Rex Code AI — rex-code-ai.vercel.app`;
   window.open(`https://wa.me/${WA}?text=${txt}`,'_blank');
 }
 </script></body></html>
