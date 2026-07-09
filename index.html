@@ -109,12 +109,17 @@ function formatUS(num){
 function unlock(){
   const k=document.getElementById("key").value.trim().toUpperCase();
   const w=document.getElementById("wa").value;
-  if(k==="CREW-1234"){
+  if(k.startsWith("CREW-")){
     const wfmt=formatUS(w);
     if(wfmt.length!==11){alert("CREW needs US WhatsApp # first. Ex: +1 5551234567");return}
-    localStorage.setItem("rexWA",wfmt);WA=wfmt;TIER="CREW";
+    localStorage.setItem("rexWA",wfmt);
+    localStorage.setItem("rexKey",k); // SAVE ACTUAL KEY
+    WA=wfmt;TIER="CREW";KEY=k;
   }
-  else if(k==="SOLO-1234"){TIER="SOLO"}
+  else if(k.startsWith("SOLO-")){
+    localStorage.setItem("rexKey",k); // SAVE ACTUAL KEY
+    TIER="SOLO";KEY=k;
+  }
   else{alert("Invalid key");return}
   localStorage.setItem("rexTier",TIER);
   lockScreen.classList.add("hidden");appScreen.classList.remove("hidden");
