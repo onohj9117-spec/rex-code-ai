@@ -149,7 +149,10 @@ function render(list){
   list.forEach(code=>{
     const d=document.createElement("div");d.className="card";
     let btns=`<button class="ghost" style="height:36px" onclick="copyRep('${code.rep.replace(/'/g,"\\'")}')">📋 Copy Report</button>`;
-    if(TIER==="CREW"){btns+=`<button class="ghost" style="height:36px" onclick="waRebuttal('${code.c}','${code.why.replace(/'/g,"\\'")}','${code.fix.replace(/'/g,"\\'")}')">📤 Send Report</button>`}
+if(TIER==="CREW"){
+  btns+=`<button class="ghost" style="height:36px" onclick="sendReport('${code.c}','${code.why.replace(/'/g,"\\'")}','${code.fix.replace(/'/g,"\\'")}')">📤 Send Report</button>`;
+  btns+=`<button class="ghost" style="height:36px" onclick="inspectorRebuttal('${code.c}','${code.why.replace(/'/g,"\\'")}','${code.fix.replace(/'/g,"\\'")}')">🛡️ Inspector Rebuttal</button>`;
+}
     d.innerHTML=`<div class="tag ${code.s.toLowerCase()}">${code.s}</div>
       <h3>${code.t}</h3><div class="muted">${code.c}</div>
       <div>${code.why}</div><div><b>Fix:</b> ${code.fix}</div>
