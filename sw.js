@@ -1,6 +1,6 @@
 // sw.js — Rex Code AI Service Worker
 // Version: bump this string whenever you deploy a new build
-const CACHE_NAME = "rex-code-ai-v3";
+const CACHE_NAME = "rex-code-ai-v4";
 
 // App shell files to cache for offline use
 const SHELL_FILES = [
