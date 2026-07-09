@@ -1,8 +1,8 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#f97316">
-<title>Rex Code AI</title><style> /* FIX 1: Removed V1 */
-:root{--bg:#0b1220;--card:#0f172a;--muted:#94a3b8;--txt:#e5e7eb;--accent:#f97316}
+<title>Rex Code AI</title><style>
+:root{--bg:#0b1220;--card:#0f172a;--muted:#94a3b8;--txt:#e5e7eb;--accent:#fb923c;--accent2:#f97316}
 *{box-sizing:border-box}body{margin:0;font:14px/1.5 system-ui,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--txt)}
 .wrap{max-width:420px;margin:0 auto;padding:24px}
 h1{font-size:24px;margin:0 0 4px;white-space:nowrap}
@@ -10,8 +10,8 @@ h1{font-size:24px;margin:0 0 4px;white-space:nowrap}
 .hook .pop{color:var(--accent)}
 .sub{color:var(--muted);font-size:13px;margin:0 0 16px}
 input,button{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b1220;color:var(--txt);padding:0 12px;font-size:16px}
-input{width:100%;min-width:0} /* FIX 2: min-width:0 stops truncation */
-button{cursor:pointer;background:var(--accent);border:0;font-weight:700}
+input{width:100%;min-width:0}
+button{cursor:pointer;background:var(--accent);border:0;font-weight:700;font-size:14px;padding:10px 16px}
 button.ghost{background:#111827;border:1px solid #374151}
 .muted{color:var(--muted);font-size:12px;margin-top:8px;text-align:center}
 .hidden{display:none}
@@ -21,19 +21,21 @@ button.ghost{background:#111827;border:1px solid #374151}
 .row{display:flex;gap:8px;align-items:center}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:12px}
 .card{background:var(--card);border:1px solid #1f2937;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.tag{font-size:11px;border-radius:999px;padding:2px 8px;border:1px solid #374151;display:inline-block;width:fit-content}
-.fail{border-color:#7f1d1d;color:#fecaca}.check{border-color:#92400e;color:#fde68a}.pass{border-color:#14532d;color:#bbf7d0}
+.tag{font-size:11px;border-radius:999px;padding:2px 8px;display:inline-block;width:fit-content;font-weight:700;color:#fff} /* REFINE 1: solid badges */
+.tag.fail{ background:#dc2626; }   /* solid red */
+.tag.check{ background:#f59e0b; }  /* solid amber */
+.tag.pass{ background:#16a34a; }   /* solid green */
 label{font-size:12px;color:var(--muted);margin-top:8px;display:block}
 select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b1220;color:var(--txt);padding:0 8px;font-size:16px}
 .searchrow .btn{flex:1}
 
-/* FIX 4: Quick Chips */
+/* REFINE 2: Quick Chips - smaller + darker */
 #quickChips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px 0}
-.chip{background:#1f2937;color:#fff;border:1px solid #374151;border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer}
-.chip:active{background:var(--accent);border-color:var(--accent)}
+.quick{background:var(--accent2);color:#fff;border:none;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer}
+.quick:active{opacity:0.8}
 </style></head><body>
 <div class="wrap" id="lockScreen">
-  <h1>Rex Code AI</h1> <!-- FIX 1: Removed V1 -->
+  <h1>Rex Code AI</h1>
   <p class="hook"><span class="pop">Stop red tags.</span> Win inspector arguments. One link for your whole crew.</p>
   <p class="sub">Enter License Key</p>
   <input id="key" placeholder="CREW-1234"/>
@@ -49,29 +51,27 @@ select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b122
 <div class="wrap hidden" id="appScreen">
   <div class="hdr">
     <div class="topbar">
-      <h1>Rex Code AI</h1> <!-- FIX 1: Removed V1 -->
+      <h1>Rex Code AI</h1>
       <div class="row" id="topBtns">
         <button class="ghost" style="height:44px;padding:0 12px" onclick="logout()">Logout</button>
-        <!-- FIX 3: WhatsApp icon REMOVED from header -->
       </div>
     </div>
     <p class="sub">Base: 2021 IMC / 2021 IECC. 180 codes.</p>
   </div>
   
   <div class="row searchrow">
-    <input id="q" placeholder="dryer vent, b-vent, attic unit..."/> <!-- FIX 2: Shorter placeholder with examples -->
+    <input id="q" placeholder="dryer vent, b-vent, attic unit..."/>
     <select id="s"><option value="">All</option><option>FAIL</option><option>CHECK</option><option>PASS</option></select>
     <button class="btn" onclick="load()">Search</button>
   </div>
 
-  <!-- FIX 4: Quick Tap Chips -->
   <div id="quickChips">
   <button class="quick" onclick="quickSearch('Dryer')">Dryer</button>
-<button class="quick" onclick="quickSearch('Bath')">Bath Fan</button>
-<button class="quick" onclick="quickSearch('Condensate')">Condensate</button>
-<button class="quick" onclick="quickSearch('Flex')">Flex Duct</button>
-<button class="quick" onclick="quickSearch('Gas')">Gas</button>
-<button class="quick" onclick="quickSearch('Combustion')">Combustion</button>
+  <button class="quick" onclick="quickSearch('Bath')">Bath Fan</button>
+  <button class="quick" onclick="quickSearch('Condensate')">Condensate</button>
+  <button class="quick" onclick="quickSearch('Flex')">Flex Duct</button>
+  <button class="quick" onclick="quickSearch('Gas')">Gas</button>
+  <button class="quick" onclick="quickSearch('Combustion')">Combustion</button>
   </div>
 
   <div id="meta" class="muted"></div>
@@ -87,7 +87,6 @@ let codes=[],WA=localStorage.getItem("rexWA")||"",TIER=localStorage.getItem("rex
 
 if(TIER){
   lockScreen.classList.add("hidden");appScreen.classList.remove("hidden");
-  // FIX 3: Removed WA icon injection here
 }
 
 document.getElementById("key").addEventListener("input",e=>{
@@ -95,7 +94,6 @@ document.getElementById("key").addEventListener("input",e=>{
   else{waField.classList.add("hidden")}
 });
 
-// FIX 4: Quick search function
 function quickSearch(term){
   q.value = term;
   load();
@@ -120,7 +118,6 @@ function unlock(){
   else{alert("Invalid key");return}
   localStorage.setItem("rexTier",TIER);
   lockScreen.classList.add("hidden");appScreen.classList.remove("hidden");
-  // FIX 3: Removed WA icon injection here too
 }
 
 function changeWA(){
@@ -158,7 +155,8 @@ function copyRep(t){navigator.clipboard.writeText(t);alert("Copied!")}
 function waRebuttal(c,why,rep){
   if(!WA){alert("Set WhatsApp # first");return}
   const jobRef = TIER==="CREW" ? "CREW-1234" : "SOLO";
-  const txt=`*Rex Code AI Rebuttal*%0A%0A*Code Section:* ${c}%0A*Finding:* ${why}%0A*Required Fix:* ${rep}%0A%0A*Job Reference:* ${jobRef}`;
+  // REFINE 3: Marketing footer added
+  const txt=`*Rex Code AI Rebuttal*%0A%0A*Code Section:* ${c}%0A*Finding:* ${why}%0A*Required Fix:* ${rep}%0A%0A*Job Reference:* ${jobRef}%0A%0APowered by Rex Code AI — rex-code-ai.vercel.app`;
   window.open(`https://wa.me/${WA}?text=${txt}`,'_blank');
 }
 </script></body></html>
