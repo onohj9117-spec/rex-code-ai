@@ -1,4 +1,4 @@
-# Rex Code AI V1
+# Rex Code AI 
 
 **The field tool that stops red tags before inspection.**
 
