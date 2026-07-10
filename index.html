@@ -126,22 +126,68 @@ function formatUS(n){const d=n.replace(/\D/g,"");if(d.length===11&&d.startsWith(
 function showErr(m){const e=document.getElementById("lockErr");e.textContent=m;e.classList.remove("hidden");}
 function clearErr(){document.getElementById("lockErr").classList.add("hidden");}
 
-function unlock(){
+// Replace the entire unlock() function in your index.html
+// with this production version.
+// This calls your real backend instead of the local check.
+
+async function unlock() {
   clearErr();
-  const k=document.getElementById("key").value.trim().toUpperCase();
-  const w=document.getElementById("wa").value.trim();
-  if(!k){showErr("Enter your license key.");return;}
-  if(k.startsWith("CREW-")&&k.length>=8){
-    const wfmt=formatUS(w);
-    if(wfmt.length!==11){showErr("CREW requires a valid US WhatsApp number. Ex: +1 5551234567");return;}
-    WA=wfmt;localStorage.setItem("rexWA",WA);TIER="CREW";
-  }else if(k.startsWith("SOLO-")&&k.length>=8){
-    TIER="SOLO";
-  }else{showErr("Invalid key. Must be SOLO-XXXX or CREW-XXXX");return;}
-  KEY=k;localStorage.setItem("rexTier",TIER);localStorage.setItem("rexKey",KEY);
-  lockScreen.classList.add("hidden");appScreen.classList.remove("hidden");
-  if(TIER==="CREW"&&waBtn)waBtn.style.display="inline-block";
-  loadCodes();
+  const k = document.getElementById("key").value.trim().toUpperCase();
+  const w = document.getElementById("wa").value.trim();
+
+  if (!k) { showErr("Enter your license key."); return; }
+
+  // Show loading state
+  const btn = document.getElementById("unlockBtn");
+  btn.disabled = true;
+  btn.textContent = "Checking...";
+
+  try {
+    const resp = await fetch("/api/validate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key: k })
+    });
+
+    const result = await resp.json();
+
+    if (!result.valid) {
+      showErr(result.message || "Invalid license key.");
+      btn.disabled = false;
+      btn.textContent = "Unlock";
+      return;
+    }
+
+    // Valid key — check WhatsApp for CREW
+    if (result.tier === "CREW") {
+      const wfmt = formatUS(w);
+      if (wfmt.length !== 11) {
+        showErr("CREW requires a valid US WhatsApp number. Ex: +1 5551234567");
+        btn.disabled = false;
+        btn.textContent = "Unlock";
+        return;
+      }
+      WA = wfmt;
+      localStorage.setItem("rexWA", WA);
+    }
+
+    // Store session
+    TIER = result.tier;
+    KEY  = k;
+    localStorage.setItem("rexTier", TIER);
+    localStorage.setItem("rexKey",  KEY);
+
+    // Show app
+    lockScreen.classList.add("hidden");
+    appScreen.classList.remove("hidden");
+    if (TIER === "CREW" && waBtn) waBtn.style.display = "inline-block";
+    loadCodes();
+
+  } catch (e) {
+    showErr("Connection error. Check internet and try again.");
+    btn.disabled = false;
+    btn.textContent = "Unlock";
+  }
 }
 
 function logout(){["rexTier","rexWA","rexKey"].forEach(k=>localStorage.removeItem(k));location.reload();}
