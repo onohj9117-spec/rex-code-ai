@@ -102,13 +102,11 @@ select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b122
 <script>
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js");}
 
-// INCREMENT this every time you update codes.json
 const DB_VERSION="v3";
 
 let codes=[],TIER=localStorage.getItem("rexTier")||"",WA=localStorage.getItem("rexWA")||"",KEY=localStorage.getItem("rexKey")||"";
 const lockScreen=document.getElementById("lockScreen"),appScreen=document.getElementById("appScreen"),meta=document.getElementById("meta"),res=document.getElementById("res"),waBtn=document.getElementById("waBtn");
 
-// Auto-login
 if(TIER){
   lockScreen.classList.add("hidden");
   appScreen.classList.remove("hidden");
@@ -116,77 +114,50 @@ if(TIER){
   loadCodes();
 }
 
-// Show WA field for CREW keys only
 document.getElementById("key").addEventListener("input",e=>{
   document.getElementById("waField").classList.toggle("hidden",!e.target.value.trim().toUpperCase().startsWith("CREW"));
 });
 
 function formatUS(n){const d=n.replace(/\D/g,"");if(d.length===11&&d.startsWith("1"))return d;if(d.length===10)return"1"+d;return d;}
-
 function showErr(m){const e=document.getElementById("lockErr");e.textContent=m;e.classList.remove("hidden");}
 function clearErr(){document.getElementById("lockErr").classList.add("hidden");}
 
-// Replace the entire unlock() function in your index.html
-// with this production version.
-// This calls your real backend instead of the local check.
-
-async function unlock() {
+async function unlock(){
   clearErr();
-  const k = document.getElementById("key").value.trim().toUpperCase();
-  const w = document.getElementById("wa").value.trim();
-
-  if (!k) { showErr("Enter your license key."); return; }
-
-  // Show loading state
-  const btn = document.getElementById("unlockBtn");
-  btn.disabled = true;
-  btn.textContent = "Checking...";
-
-  try {
-    const resp = await fetch("/api/validate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ key: k })
+  const k=document.getElementById("key").value.trim().toUpperCase();
+  const w=document.getElementById("wa").value.trim();
+  if(!k){showErr("Enter your license key.");return;}
+  const btn=document.getElementById("unlockBtn");
+  btn.disabled=true;btn.textContent="Checking...";
+  try{
+    const resp=await fetch("/api/validate",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({key:k})
     });
-
-    const result = await resp.json();
-
-    if (!result.valid) {
-      showErr(result.message || "Invalid license key.");
-      btn.disabled = false;
-      btn.textContent = "Unlock";
-      return;
+    const result=await resp.json();
+    if(!result.valid){
+      showErr(result.message||"Invalid license key.");
+      btn.disabled=false;btn.textContent="Unlock";return;
     }
-
-    // Valid key — check WhatsApp for CREW
-    if (result.tier === "CREW") {
-      const wfmt = formatUS(w);
-      if (wfmt.length !== 11) {
+    if(result.tier==="CREW"){
+      const wfmt=formatUS(w);
+      if(wfmt.length!==11){
         showErr("CREW requires a valid US WhatsApp number. Ex: +1 5551234567");
-        btn.disabled = false;
-        btn.textContent = "Unlock";
-        return;
+        btn.disabled=false;btn.textContent="Unlock";return;
       }
-      WA = wfmt;
-      localStorage.setItem("rexWA", WA);
+      WA=wfmt;localStorage.setItem("rexWA",WA);
     }
-
-    // Store session
-    TIER = result.tier;
-    KEY  = k;
-    localStorage.setItem("rexTier", TIER);
-    localStorage.setItem("rexKey",  KEY);
-
-    // Show app
+    TIER=result.tier;KEY=k;
+    localStorage.setItem("rexTier",TIER);
+    localStorage.setItem("rexKey",KEY);
     lockScreen.classList.add("hidden");
     appScreen.classList.remove("hidden");
-    if (TIER === "CREW" && waBtn) waBtn.style.display = "inline-block";
+    if(TIER==="CREW"&&waBtn)waBtn.style.display="inline-block";
     loadCodes();
-
-  } catch (e) {
+  }catch(e){
     showErr("Connection error. Check internet and try again.");
-    btn.disabled = false;
-    btn.textContent = "Unlock";
+    btn.disabled=false;btn.textContent="Unlock";
   }
 }
 
@@ -198,8 +169,6 @@ function changeWA(){
   WA=wfmt;localStorage.setItem("rexWA",WA);alert("WhatsApp number updated.");
 }
 
-// FIX: no-cache + version param — always loads fresh database
-// FIX: loads ONCE on startup, not on every search
 async function loadCodes(){
   if(meta)meta.textContent="Loading database...";
   try{
@@ -223,7 +192,6 @@ function doSearch(){
   render(list);
 }
 
-// Keep old name working
 function load(){doSearch();}
 
 function render(list){
@@ -237,22 +205,15 @@ function render(list){
   list.forEach(code=>{
     const rebId="reb-"+code.id;
     const safeT=esc(code.t),safeC=esc(code.c),safeW=esc(code.why),safeF=esc(code.fix),safeR=esc(code.rep);
-
-    // FIX: Copy Report CREW only — SOLO sees disabled button
     const copyBtn=TIER==="CREW"
       ?`<button class="ghost" onclick="copyRep('${safeR}')">📋 Copy Report</button>`
       :`<button class="ghost" style="opacity:0.35" disabled>📋 CREW Only</button>`;
-
-    // Send Report via WhatsApp — CREW only
     const sendBtn=TIER==="CREW"
       ?`<button class="ghost" onclick="sendReport('${safeC}','${safeW}','${safeF}')">📤 Send Report</button>`
       :"";
-
-    // Inspector Rebuttal — CREW only, shows INLINE so tech reads it to inspector on site
     const rebBtn=TIER==="CREW"
       ?`<button class="ghost btn-full" onclick="toggleReb('${rebId}','${safeR}')">🛡 Inspector Rebuttal</button><div class="reb-box" id="${rebId}"></div>`
       :"";
-
     const d=document.createElement("div");d.className="card";
     d.innerHTML=`
       <div class="tag ${code.s.toLowerCase()}">${code.s}</div>
@@ -266,7 +227,6 @@ function render(list){
   });
 }
 
-// Inspector Rebuttal — toggles inline on the card
 function toggleReb(id,text){
   const box=document.getElementById(id);if(!box)return;
   if(box.classList.contains("open")){box.classList.remove("open");box.innerHTML="";}
@@ -288,7 +248,6 @@ function fallbackCopy(text){
   document.body.removeChild(ta);
 }
 
-// Send Report via WhatsApp — uses real KEY as job reference
 function sendReport(c,why,fix){
   if(!WA){alert("No WhatsApp number saved. Tap WA button to add one.");return;}
   const jobRef=KEY||"REX";
