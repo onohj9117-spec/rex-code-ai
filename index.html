@@ -12,9 +12,10 @@
 body{margin:0;font:14px/1.5 system-ui,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--txt)}
 .wrap{max-width:420px;margin:0 auto;padding:24px}
 h1{font-size:24px;margin:0 0 4px;white-space:nowrap}
-.hook{color:var(--txt);font-size:14px;font-weight:600;margin:0 0 16px;line-height:1.4}
+.hook{color:var(--txt);font-size:14px;font-weight:600;margin:0 0 8px;line-height:1.4}
 .hook .pop{color:var(--accent)}
 .sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+.subhead{color:var(--muted);font-size:13px;margin:0 0 16px;line-height:1.6}
 input,button{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b1220;color:var(--txt);padding:0 12px;font-size:16px}
 input{width:100%;min-width:0}
 input:focus{outline:2px solid var(--accent);border-color:transparent}
@@ -28,33 +29,144 @@ button.ghost:active{background:#1f2937}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:12px}
 .card{background:var(--card);border:1px solid #1f2937;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px}
+
+/* Verdict badges */
 .tag{font-size:11px;border-radius:999px;padding:3px 10px;display:inline-block;width:fit-content;font-weight:700;color:#fff}
 .tag.fail{background:#dc2626}
 .tag.check{background:#f59e0b}
 .tag.pass{background:#16a34a}
+
+/* Card buttons */
 .btn-row{display:flex;gap:8px;flex-wrap:wrap}
 .btn-row button{flex:1;min-width:110px;height:38px;font-size:12px}
 .btn-full{width:100%;height:38px;font-size:12px;margin-top:2px}
 .reb-box{display:none;background:#0b1220;border:1px solid #374151;border-radius:10px;padding:12px;font-size:13px;line-height:1.7;color:var(--txt);margin-top:2px}
 .reb-box.open{display:block}
+
+/* Code reference line in card */
+.code-ref{font-size:12px;color:var(--accent);font-weight:600;letter-spacing:0.02em}
+.code-src{font-size:11px;color:var(--muted);margin-top:-4px}
+
 label{font-size:12px;color:var(--muted);margin-top:8px;display:block}
 select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b1220;color:var(--txt);padding:0 8px;font-size:16px}
 .searchrow{display:flex;gap:8px;margin-bottom:4px}
 .searchrow input{flex:1}
 .searchrow select{width:90px}
 .searchrow .btn{width:90px;height:48px}
+
+/* Quick chips */
 #quickChips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px 0}
 .quick{background:#1e293b;color:var(--txt);border:1px solid #374151;border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;height:auto}
 .quick:active{background:var(--accent2);border-color:transparent;color:#fff}
+
+/* Lock screen elements */
 #unlockBtn{margin-top:14px;width:100%}
 .err{color:#f87171;font-size:13px;margin-top:6px;text-align:center}
+
+/* Social proof bullets */
+.proof{list-style:none;padding:0;margin:0 0 16px 0;display:flex;flex-direction:column;gap:6px}
+.proof li{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.proof li::before{content:"✓";color:var(--accent);font-weight:700;font-size:14px;flex-shrink:0}
+
+/* Offline badge */
+.badge-offline{display:inline-flex;align-items:center;gap:6px;background:#0f2a1a;border:1px solid #166534;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;color:#4ade80;margin-bottom:16px}
+
+/* Tier cards */
+.tier-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 16px 0}
+.tier-card{background:var(--card);border:1px solid #1f2937;border-radius:12px;padding:12px}
+.tier-card.crew{border-color:var(--accent2)}
+.tier-name{font-size:13px;font-weight:700;margin:0 0 4px 0}
+.tier-price{font-size:18px;font-weight:700;color:var(--accent);margin:0 0 8px 0}
+.tier-features{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px}
+.tier-features li{font-size:11px;color:var(--muted);display:flex;align-items:flex-start;gap:5px}
+.tier-features li .ti{flex-shrink:0;font-size:11px}
+.ti-yes{color:#4ade80}
+.ti-no{color:#6b7280}
+
+/* Comparison table */
+.cmp-table{width:100%;border-collapse:collapse;margin:0 0 16px 0;font-size:12px}
+.cmp-table th{text-align:left;padding:6px 8px;color:var(--muted);font-weight:600;border-bottom:1px solid #1f2937}
+.cmp-table th:not(:first-child){text-align:center}
+.cmp-table td{padding:6px 8px;border-bottom:1px solid #0f172a;color:var(--txt)}
+.cmp-table td:not(:first-child){text-align:center}
+.cmp-table tr:last-child td{border-bottom:none}
+.cmark{color:#4ade80;font-size:14px}
+.xmark{color:#6b7280;font-size:14px}
+
+/* Meta line */
+.meta-line{color:var(--muted);font-size:12px;margin-top:8px}
 </style>
 </head>
 <body>
 
+<!-- ═══════════════════════════════════
+     LOCK SCREEN
+═══════════════════════════════════ -->
 <div class="wrap" id="lockScreen">
   <h1>Rex Code AI</h1>
-  <p class="hook"><span class="pop">Stop red tags.</span> Pass inspections with confidence.Defend your work with code. One link for your whole crew.</p>
+
+  <p class="hook"><span class="pop">Stop red tags.</span> Win inspector arguments. One link for your whole crew.</p>
+
+  <p class="subhead">180 HVAC code references. Copy inspection reports. Share findings with your crew. Built for technicians, installers, and contractors.</p>
+
+  <!-- Offline badge -->
+  <div class="badge-offline">📶 Offline Ready</div>
+
+  <!-- Social proof bullets -->
+  <ul class="proof">
+    <li>2021 IMC · 2021 IECC · 2021 IFGC · 2021 IPC</li>
+    <li>180 searchable HVAC code references</li>
+    <li>Works completely offline after activation</li>
+    <li>FAIL / CHECK / PASS verdicts in plain language</li>
+  </ul>
+
+  <!-- Tier cards -->
+  <div class="tier-grid">
+    <div class="tier-card">
+      <p class="tier-name">Solo</p>
+      <p class="tier-price">$39</p>
+      <ul class="tier-features">
+        <li><span class="ti ti-yes">✓</span> Search all codes</li>
+        <li><span class="ti ti-yes">✓</span> View fixes</li>
+        <li><span class="ti ti-yes">✓</span> Offline access</li>
+        <li><span class="ti ti-no">✗</span> Copy reports</li>
+        <li><span class="ti ti-no">✗</span> WhatsApp</li>
+        <li><span class="ti ti-no">✗</span> Rebuttals</li>
+      </ul>
+    </div>
+    <div class="tier-card crew">
+      <p class="tier-name">Crew</p>
+      <p class="tier-price">$97</p>
+      <ul class="tier-features">
+        <li><span class="ti ti-yes">✓</span> Everything in Solo</li>
+        <li><span class="ti ti-yes">✓</span> Copy reports</li>
+        <li><span class="ti ti-yes">✓</span> WhatsApp delivery</li>
+        <li><span class="ti ti-yes">✓</span> Inspector rebuttals</li>
+        <li><span class="ti ti-yes">✓</span> Team sharing</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Comparison table -->
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Solo $39</th>
+        <th>Crew $97</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>View codes</td><td><span class="cmark">✔</span></td><td><span class="cmark">✔</span></td></tr>
+      <tr><td>Search</td><td><span class="cmark">✔</span></td><td><span class="cmark">✔</span></td></tr>
+      <tr><td>Offline</td><td><span class="cmark">✔</span></td><td><span class="cmark">✔</span></td></tr>
+      <tr><td>Copy reports</td><td><span class="xmark">✖</span></td><td><span class="cmark">✔</span></td></tr>
+      <tr><td>WhatsApp reports</td><td><span class="xmark">✖</span></td><td><span class="cmark">✔</span></td></tr>
+      <tr><td>Inspector rebuttals</td><td><span class="xmark">✖</span></td><td><span class="cmark">✔</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Key entry -->
   <p class="sub">Enter License Key</p>
   <input id="key" placeholder="SOLO-XXXX or CREW-XXXX" autocomplete="off" autocapitalize="characters" onkeydown="if(event.key==='Enter')unlock()"/>
   <div id="waField" class="hidden">
@@ -64,9 +176,12 @@ select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b122
   </div>
   <button id="unlockBtn" onclick="unlock()">Unlock</button>
   <div id="lockErr" class="err hidden"></div>
-  <p class="muted" style="margin-top:14px">SOLO = View only &nbsp;|&nbsp; CREW = Copy + Send + Rebuttal + WhatsApp</p>
 </div>
 
+
+<!-- ═══════════════════════════════════
+     APP SCREEN
+═══════════════════════════════════ -->
 <div class="wrap hidden" id="appScreen">
   <div class="hdr">
     <div class="topbar">
@@ -76,13 +191,15 @@ select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b122
         <button class="ghost" style="height:40px;padding:0 12px;font-size:12px" onclick="logout()">Logout</button>
       </div>
     </div>
-    <p class="sub">Base: 2021 IMC / 2021 IECC. 180 codes.</p>
+    <p class="sub" style="margin-bottom:4px">Base: 2021 IMC / 2021 IECC / 2021 IFGC. 180 codes. <span style="color:#4ade80">📶 Offline Ready</span></p>
   </div>
+
   <div class="searchrow">
     <input id="q" placeholder="dryer, b-vent, attic unit..." onkeydown="if(event.key==='Enter')doSearch()"/>
     <select id="s"><option value="">All</option><option>FAIL</option><option>CHECK</option><option>PASS</option></select>
     <button class="btn" onclick="doSearch()">Search</button>
   </div>
+
   <div id="quickChips">
     <button class="quick" onclick="quickSearch('Dryer')">Dryer</button>
     <button class="quick" onclick="quickSearch('Bath')">Bath Fan</button>
@@ -95,10 +212,15 @@ select{height:48px;border-radius:12px;border:1px solid #1f2937;background:#0b122
     <button class="quick" onclick="quickSearch('Zone')">Zone</button>
     <button class="quick" onclick="quickSearch('Venting')">Venting</button>
   </div>
-  <div id="meta" class="muted"></div>
+
+  <div id="meta" class="meta-line"></div>
   <div id="res" class="grid"></div>
 </div>
 
+
+<!-- ═══════════════════════════════════
+     SCRIPT
+═══════════════════════════════════ -->
 <script>
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js");}
 
@@ -175,7 +297,7 @@ async function loadCodes(){
     const r=await fetch(`codes.json?v=${DB_VERSION}`,{cache:"no-cache"});
     if(!r.ok)throw new Error("HTTP "+r.status);
     codes=await r.json();
-    if(meta)meta.textContent=`${codes.length} codes loaded. Search above or tap a chip.`;
+    if(meta)meta.textContent=`${codes.length} code references loaded. Search above or tap a chip.`;
   }catch(e){
     if(meta)meta.textContent="Error loading database: "+e.message;
     console.error("loadCodes:",e);
@@ -194,9 +316,34 @@ function doSearch(){
 
 function load(){doSearch();}
 
+// Map code prefix to full source name
+function getSource(codeRef){
+  const r=codeRef||"";
+  if(r.includes("IMC"))    return"Source: International Mechanical Code (IMC)";
+  if(r.includes("IECC"))   return"Source: International Energy Conservation Code (IECC)";
+  if(r.includes("IFGC"))   return"Source: International Fuel Gas Code (IFGC)";
+  if(r.includes("IPC"))    return"Source: International Plumbing Code (IPC)";
+  if(r.includes("IRC"))    return"Source: International Residential Code (IRC)";
+  if(r.includes("NEC"))    return"Source: National Electrical Code (NEC 70)";
+  if(r.includes("EPA"))    return"Source: U.S. EPA Section 608 Regulations";
+  if(r.includes("ASHRAE")) return"Source: ASHRAE Standard";
+  if(r.includes("MFG"))    return"Source: Equipment Manufacturer Specification";
+  return"Source: Referenced Code Standard";
+}
+
+// Format code ref to show § symbol
+function fmtRef(codeRef){
+  const r=codeRef||"";
+  // Find the section number pattern (digits and dots at the end)
+  const match=r.match(/^(.*?)\s+([\d]+\.[\d.]+)$/);
+  if(match) return`Code Reference: ${match[1]} §${match[2]}`;
+  return`Code Reference: ${r}`;
+}
+
 function render(list){
   if(!res)return;
-  if(meta)meta.textContent=`Found ${list.length} of ${codes.length} codes.`;
+  // Updated meta text
+  if(meta)meta.textContent=`${list.length} matching code reference${list.length===1?"":"s"}`;
   res.innerHTML="";
   if(!list.length){
     res.innerHTML=`<div class="card" style="text-align:center;padding:20px"><p style="color:var(--muted);margin:0">No results. Try a different keyword.</p></div>`;
@@ -205,6 +352,9 @@ function render(list){
   list.forEach(code=>{
     const rebId="reb-"+code.id;
     const safeT=esc(code.t),safeC=esc(code.c),safeW=esc(code.why),safeF=esc(code.fix),safeR=esc(code.rep);
+    const displayRef=fmtRef(code.c);
+    const displaySrc=getSource(code.c);
+
     const copyBtn=TIER==="CREW"
       ?`<button class="ghost" onclick="copyRep('${safeR}')">📋 Copy Report</button>`
       :`<button class="ghost" style="opacity:0.35" disabled>📋 CREW Only</button>`;
@@ -214,11 +364,13 @@ function render(list){
     const rebBtn=TIER==="CREW"
       ?`<button class="ghost btn-full" onclick="toggleReb('${rebId}','${safeR}')">🛡 Inspector Rebuttal</button><div class="reb-box" id="${rebId}"></div>`
       :"";
+
     const d=document.createElement("div");d.className="card";
     d.innerHTML=`
       <div class="tag ${code.s.toLowerCase()}">${code.s}</div>
       <h3 style="margin:2px 0;font-size:16px">${safeT}</h3>
-      <div style="font-size:12px;color:var(--muted)">${safeC}</div>
+      <div class="code-ref">${displayRef}</div>
+      <div class="code-src">${displaySrc}</div>
       <div style="font-size:14px">${safeW}</div>
       <div style="font-size:14px"><b>Fix:</b> ${safeF}</div>
       <div class="btn-row">${copyBtn}${sendBtn}</div>
@@ -253,7 +405,8 @@ function sendReport(c,why,fix){
   const jobRef=KEY||"REX";
   const txt=[
     "*Rex Code AI Report*","",
-    `*Code Section:* ${c}`,
+    `*Code Reference:* ${fmtRef(c)}`,
+    `*${getSource(c)}*`,"",
     `*Finding:* ${why}`,
     `*Required Fix:* ${fix}`,"",
     `*Job Reference:* ${jobRef}`,"",
